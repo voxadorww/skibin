@@ -10,6 +10,15 @@ import uuid
 import time
 from datetime import datetime
 
+def get_client_ip(request):
+    """Get client IP address"""
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
+
 def home(request):
     """Landing page with stats"""
     total_pastes = Paste.get_total_pastes()
@@ -59,12 +68,36 @@ def status_page(request):
 @require_http_methods(["GET", "POST"])
 def create_paste(request):
     """Create a new paste"""
+    
+    # RATE LIMITING: Check if IP has created a paste in last minute
+    if request.method == 'POST':
+        client_ip = get_client_ip(request)
+        cache_key = f"paste_limit_{client_ip}"
+        
+        # Check if IP is rate limited
+        last_paste_time = cache.get(cache_key)
+        
+        if last_paste_time:
+            time_passed = timezone.now() - last_paste_time
+            if time_passed.total_seconds() < 30:  # 1 minute cooldown
+                seconds_left = 60 - int(time_passed.total_seconds())
+                
+                # Show error message on the form
+                form = PasteForm(request.POST)
+                form.add_error(None, f"Rate limit: Please wait {seconds_left} seconds before creating another paste")
+                return render(request, 'new.html', {'form': form})
+    
     if request.method == 'POST':
         form = PasteForm(request.POST)
         if form.is_valid():
             paste = form.save()
-            # Redirect to the new paste
-            return redirect('view_paste', paste_id=paste.id)  # No str() needed now
+            
+            # Set rate limit for this IP (1 minute)
+            client_ip = get_client_ip(request)
+            cache_key = f"paste_limit_{client_ip}"
+            cache.set(cache_key, timezone.now(), timeout=60)
+            
+            return redirect('view_paste', paste_id=paste.id)
     else:
         form = PasteForm()
     
