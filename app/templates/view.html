@@ -4,6 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ paste.title|default:"untitled" }} | skibin.lol</title>
+
+    <!-- Open Graph / Facebook Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    <meta property="og:title" content="{{ paste.title|default:'untitled paste' }} | skibin.lol">
+    <meta property="og:description" content="{{ paste.content|truncatechars:150|default:'Code snippet shared on skibin.lol' }}">
+    <meta property="og:site_name" content="skibin.lol">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:url" content="{{ request.build_absolute_uri }}">
+    <meta name="twitter:title" content="{{ paste.title|default:'untitled paste' }} | skibin.lol">
+    <meta name="twitter:description" content="{{ paste.content|truncatechars:150|default:'Code snippet shared on skibin.lol' }}">
+    
+    <!-- Discord-specific Meta Tags -->
+    <meta property="og:site_name" content="skibin.lol">
+    <meta name="theme-color" content="#f97316">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
