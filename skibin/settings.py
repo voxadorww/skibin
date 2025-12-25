@@ -33,6 +33,10 @@ TAILWIND_APP_NAME = 'theme'
 
 # Application definition
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://skibin.lol',
+]
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
