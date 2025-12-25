@@ -81,7 +81,7 @@ def create_paste(request):
         if last_paste_time:
             time_passed = timezone.now() - last_paste_time
             if time_passed.total_seconds() < 30:  # 1 minute cooldown
-                seconds_left = 60 - int(time_passed.total_seconds())
+                seconds_left = 30 - int(time_passed.total_seconds())
                 
                 # Show error message on the form
                 form = PasteForm(request.POST)
