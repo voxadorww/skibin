@@ -53,6 +53,9 @@ def contact(request):
 def terms(request):
     return render(request, "terms.html")
 
+def status_page(request):
+    return render(request, "status.html")
+
 @require_http_methods(["GET", "POST"])
 def create_paste(request):
     """Create a new paste"""
