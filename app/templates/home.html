@@ -18,6 +18,56 @@
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+    <script>
+        // === DARK MODE TOGGLE ===
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const darkIcon = document.getElementById('darkIcon');
+        const lightIcon = document.getElementById('lightIcon');
+        
+        // Check saved theme or system preference
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const savedTheme = localStorage.getItem('skibin-theme');
+        
+        // Set initial theme
+        if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+            enableDarkMode();
+        }
+        
+        // Toggle dark mode
+        darkModeToggle.addEventListener('click', () => {
+            if (document.body.classList.contains('dark-mode')) {
+                disableDarkMode();
+            } else {
+                enableDarkMode();
+            }
+        });
+        
+        function enableDarkMode() {
+            document.body.classList.add('dark-mode');
+            darkIcon.classList.remove('hidden');
+            lightIcon.classList.add('hidden');
+            localStorage.setItem('skibin-theme', 'dark');
+        }
+        
+        function disableDarkMode() {
+            document.body.classList.remove('dark-mode');
+            darkIcon.classList.add('hidden');
+            lightIcon.classList.remove('hidden');
+            localStorage.setItem('skibin-theme', 'light');
+        }
+        
+        // Listen for system theme changes
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+            if (!localStorage.getItem('skibin-theme')) {
+                if (e.matches) {
+                    enableDarkMode();
+                } else {
+                    disableDarkMode();
+                }
+            }
+        });
+    </script>
+
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -109,23 +159,136 @@
             height: 100%;
             transition: width 1s ease-in-out;
         }
+
+                /* === DARK MODE STYLES === */
+        .dark-mode {
+            background: #111827 !important;
+            color: #f3f4f6 !important;
+        }
+        
+        .dark-mode .bg-white {
+            background-color: #1f2937 !important;
+        }
+        
+        .dark-mode .bg-gray-50 {
+            background-color: #374151 !important;
+        }
+        
+        .dark-mode .bg-gray-100 {
+            background-color: #4b5563 !important;
+        }
+        
+        .dark-mode .border-gray-200 {
+            border-color: #374151 !important;
+        }
+        
+        .dark-mode .border-gray-300 {
+            border-color: #4b5563 !important;
+        }
+        
+        .dark-mode .text-gray-600 {
+            color: #d1d5db !important;
+        }
+        
+        .dark-mode .text-gray-700 {
+            color: #e5e7eb !important;
+        }
+        
+        .dark-mode .text-gray-800 {
+            color: #f3f4f6 !important;
+        }
+        
+        .dark-mode .bg-gradient-to-br {
+            background: linear-gradient(135deg, #111827 0%, #1f2937 100%) !important;
+        }
+        
+        /* Specific components */
+        .dark-mode .bg-yellow-50 {
+            background-color: #78350f !important;
+        }
+        
+        .dark-mode .border-yellow-200 {
+            border-color: #92400e !important;
+        }
+        
+        .dark-mode .text-yellow-700 {
+            color: #fef3c7 !important;
+        }
+        
+        .dark-mode .text-yellow-800 {
+            color: #fef3c7 !important;
+        }
+        
+        .dark-mode .bg-blue-50 {
+            background-color: #1e3a8a !important;
+        }
+        
+        .dark-mode .border-blue-100 {
+            border-color: #1e40af !important;
+        }
+        
+        .dark-mode .text-blue-800 {
+            color: #dbeafe !important;
+        }
+        
+        .dark-mode .bg-orange-50 {
+            background-color: #7c2d12 !important;
+        }
+        
+        .dark-mode .border-orange-100 {
+            border-color: #9a3412 !important;
+        }
+        
+        .dark-mode .shadow-lg {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5) !important;
+        }
+        
+        /* Code editor already dark, but ensure consistency */
+        .dark-mode .code-container {
+            background: #0d1117 !important;
+        }
+        
+        .dark-mode .code-editor {
+            background: #0d1117 !important;
+            border-color: #30363d !important;
+        }
+        
+        .dark-mode .preview-code {
+            background: #0d1117 !important;
+        }
+        
+        .dark-mode .hljs {
+            background: #0d1117 !important;
+        }
     </style>
 </head>
 
-<body class="bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
-    <!-- Navigation -->
-    <nav class="sticky top-0 z-50 backdrop-blur-md bg-white/70 border-b border-gray-200">
+<!-- Navigation -->
+    <nav class="sticky top-0 z-50 backdrop-blur-md bg-white/70 dark:bg-gray-800/70 border-b border-gray-200 dark:border-gray-700">
         <div class="container mx-auto px-4 py-3">
             <div class="flex items-center justify-between">
                 <a href="/" class="flex items-center space-x-2">
                     <span class="text-2xl">📝</span>
                     <h1 class="text-xl font-bold gradient-text">skibin.lol</h1>
                 </a>
-
-                <a href="/new"
-                    class="px-4 py-2 bg-gradient-to-r from-orange-500 to-pink-600 text-white font-semibold rounded-full btn-3d text-sm">
-                    get started
-                </a>
+                
+                <div class="flex items-center space-x-4">
+                    <!-- Dark Mode Toggle -->
+                    <button id="darkModeToggle" 
+                            class="p-2 rounded-full bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 
+                                   transition-all duration-300">
+                        <span id="darkIcon" class="hidden text-lg">🌙</span>
+                        <span id="lightIcon" class="text-lg">☀️</span>
+                    </button>
+                    
+                    <!-- Only show "Get Started" on homepage -->
+                    {% if request.path == '/' %}
+                    <a href="/new"
+                        class="px-4 py-2 bg-gradient-to-r from-orange-500 to-pink-600 text-white font-semibold rounded-full btn-3d text-sm">
+                        get started
+                    </a>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </nav>
