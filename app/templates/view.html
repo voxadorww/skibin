@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +7,13 @@
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Configure Tailwind for dark mode -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class'
+        }
+    </script>
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -27,6 +34,10 @@
             min-height: 100vh;
         }
         
+        .dark body {
+            background: linear-gradient(135deg, #111827 0%, #1f2937 100%) !important;
+        }
+        
         .gradient-text {
             background: linear-gradient(90deg, #f97316, #db2777, #7c3aed);
             -webkit-background-clip: text;
@@ -44,6 +55,11 @@
         .btn-3d:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 0 rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-3d:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 rgba(0, 0, 0, 0.1);
         }
         
         .code-container {
@@ -103,11 +119,76 @@
             border: 1px solid rgba(59, 130, 246, 0.2);
             color: #3b82f6;
         }
+        
+        /* Custom scrollbar for page */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 10px;
+        }
+        
+        .dark ::-webkit-scrollbar-track {
+            background: #374151;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #f97316, #db2777);
+            border-radius: 10px;
+        }
+        
+        .dark ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #ea580c, #be185d);
+        }
+        
+        /* Glass effect for nav */
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .dark .glass-effect {
+            background: rgba(31, 41, 55, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(75, 85, 99, 0.2);
+        }
+        
+        /* Custom form input for URL */
+        .url-input {
+            width: 100%;
+            padding: 12px 16px;
+            background: white;
+            border: 1px solid #d1d5db;
+            border-radius: 12px;
+            font-size: 14px;
+            color: #1f2937;
+            outline: none;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        .dark .url-input {
+            background: #374151;
+            border-color: #4b5563;
+            color: #f3f4f6;
+        }
+        
+        .url-input:focus {
+            border-color: #f97316;
+            box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
+        }
+        
+        .dark .url-input:focus {
+            border-color: #f97316;
+            box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.2);
+        }
     </style>
 </head>
-<body class="min-h-screen">
+<body class="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 transition-colors duration-300">
     <!-- Navigation -->
-    <nav class="sticky top-0 z-50 backdrop-blur-md bg-white/70 border-b border-gray-200">
+    <nav class="sticky top-0 z-50 glass-effect border-b border-gray-200 dark:border-gray-700">
         <div class="container mx-auto px-4 py-3">
             <div class="flex items-center justify-between">
                 <a href="{% url 'home' %}" class="flex items-center space-x-2">
@@ -116,7 +197,14 @@
                 </a>
                 
                 <div class="flex items-center space-x-4">
-                    <a href="{% url 'create_paste' %}" class="text-gray-600 hover:text-pink-600 font-medium text-sm">
+                    <!-- Dark Mode Toggle -->
+                    <button id="darkModeToggle" 
+                            class="p-2 rounded-full bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 
+                                   transition-all duration-300">
+                        <span id="darkIcon" class="hidden text-lg">🌙</span>
+                        <span id="lightIcon" class="text-lg">☀️</span>
+                    </button>
+                    <a href="{% url 'create_paste' %}" class="text-gray-600 dark:text-gray-300 hover:text-pink-600 dark:hover:text-pink-400 font-medium text-sm">
                         + new paste
                     </a>
                 </div>
@@ -146,7 +234,7 @@
                     </div>
                 </div>
                 
-                <div class="flex flex-wrap items-center gap-6 text-sm text-gray-600">
+                <div class="flex flex-wrap items-center gap-6 text-sm text-gray-600 dark:text-gray-400">
                     <div class="flex items-center">
                         <i class="fas fa-eye mr-2"></i>
                         <span>{{ paste.views }} view{{ paste.views|pluralize }}</span>
@@ -157,17 +245,17 @@
                     </div>
                     <div class="flex items-center">
                         <i class="fas fa-link mr-2"></i>
-                        <span class="font-mono bg-gray-100 px-2 py-1 rounded">skibin.lol/{{ paste.id }}</span>
+                        <span class="font-mono bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">skibin.lol/{{ paste.id }}</span>
                     </div>
                 </div>
             </div>
             
             <!-- Action Buttons -->
             <div class="flex flex-wrap gap-3 mb-6">
-                <a href="{% url 'raw_paste' paste.id %}" target="_blank" class="px-4 py-2 bg-white border-2 border-gray-300 text-gray-800 font-medium rounded-xl hover:border-pink-400 transition flex items-center">
+                <a href="{% url 'raw_paste' paste.id %}" target="_blank" class="px-4 py-2 bg-white dark:bg-gray-800 border-2 border-gray-300 dark:border-gray-700 text-gray-800 dark:text-gray-200 font-medium rounded-xl hover:border-pink-400 transition flex items-center">
                     <i class="fas fa-file-alt mr-2"></i> raw
                 </a>
-                <a href="{% url 'clone_paste' paste.id %}" class="px-4 py-2 bg-white border-2 border-gray-300 text-gray-800 font-medium rounded-xl hover:border-pink-400 transition flex items-center">
+                <a href="{% url 'clone_paste' paste.id %}" class="px-4 py-2 bg-white dark:bg-gray-800 border-2 border-gray-300 dark:border-gray-700 text-gray-800 dark:text-gray-200 font-medium rounded-xl hover:border-pink-400 transition flex items-center">
                     <i class="fas fa-copy mr-2"></i> clone
                 </a>
                 <button onclick="copyToClipboard()" class="px-4 py-2 bg-gradient-to-r from-orange-500 to-pink-600 text-white font-medium rounded-xl btn-3d flex items-center">
@@ -191,20 +279,25 @@
             </div>
             
             <!-- Share Section -->
-            <div class="bg-gradient-to-r from-orange-50 to-pink-50 border border-orange-100 rounded-2xl p-6 mb-8">
-                <h3 class="text-lg font-bold mb-3">
+            <div class="bg-gradient-to-r from-orange-50 to-pink-50 dark:from-orange-900/20 dark:to-pink-900/20 
+                        border border-orange-100 dark:border-orange-800 rounded-2xl p-6 mb-8">
+                <h3 class="text-lg font-bold mb-3 dark:text-gray-200">
                     <i class="fas fa-share-alt mr-2"></i>share this paste
                 </h3>
                 <div class="flex flex-wrap items-center gap-4">
                     <div class="flex-1 min-w-[300px]">
                         <div class="relative">
-                            <input type="text" id="paste-url" value="{{ request.build_absolute_uri }}" readonly class="w-full p-3 pr-10 bg-white border border-gray-300 rounded-xl font-mono text-sm">
-                            <button onclick="copyToClipboard()" class="absolute right-2 top-2 p-2 text-gray-500 hover:text-pink-600">
+                            <input type="text" 
+                                   id="paste-url" 
+                                   value="{{ request.build_absolute_uri }}" 
+                                   readonly 
+                                   class="url-input pr-10">
+                            <button onclick="copyToClipboard()" class="absolute right-3 top-1/2 transform -translate-y-1/2 p-2 text-gray-500 dark:text-gray-400 hover:text-pink-600 dark:hover:text-pink-400">
                                 <i class="fas fa-copy"></i>
                             </button>
                         </div>
                     </div>
-                    <div class="text-sm text-gray-600">
+                    <div class="text-sm text-gray-600 dark:text-gray-400">
                         <i class="fas fa-info-circle mr-1"></i>
                         only people with this link can view
                     </div>
@@ -212,7 +305,7 @@
             </div>
             
             <!-- Info -->
-            <div class="text-center text-gray-500 text-sm">
+            <div class="text-center text-gray-500 dark:text-gray-400 text-sm">
                 <p>
                     <i class="fas fa-lock mr-1"></i>
                     private paste • auto-deletes after 3 months • no accounts needed
@@ -222,7 +315,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="mt-12 border-t border-gray-200">
+    <footer class="mt-12 border-t border-gray-200 dark:border-gray-800">
         <div class="container mx-auto px-4 py-6">
             <div class="flex flex-col md:flex-row justify-between items-center">
                 <div class="flex items-center space-x-2 mb-4 md:mb-0">
@@ -230,9 +323,9 @@
                     <span class="font-bold gradient-text">skibin.lol</span>
                 </div>
                 
-                <div class="flex space-x-6 text-gray-600 text-sm">
-                    <a href="{% url 'home' %}" class="hover:text-pink-600">home</a>
-                    <a href="{% url 'create_paste' %}" class="hover:text-pink-600">create paste</a>
+                <div class="flex space-x-6 text-gray-600 dark:text-gray-400 text-sm">
+                    <a href="{% url 'home' %}" class="hover:text-pink-600 dark:hover:text-pink-400">home</a>
+                    <a href="{% url 'create_paste' %}" class="hover:text-pink-600 dark:hover:text-pink-400">create paste</a>
                 </div>
             </div>
         </div>
@@ -248,7 +341,16 @@
             urlInput.select();
             urlInput.setSelectionRange(0, 99999); // For mobile
             navigator.clipboard.writeText(urlInput.value).then(() => {
-                alert('Link copied to clipboard!');
+                // Show a better notification
+                const originalText = urlInput.nextElementSibling.innerHTML;
+                urlInput.nextElementSibling.innerHTML = '<i class="fas fa-check"></i> copied!';
+                urlInput.nextElementSibling.classList.add('text-green-500');
+                
+                setTimeout(() => {
+                    urlInput.nextElementSibling.innerHTML = '<i class="fas fa-copy"></i>';
+                    urlInput.nextElementSibling.classList.remove('text-green-500');
+                    urlInput.nextElementSibling.classList.add('text-gray-500', 'dark:text-gray-400');
+                }, 2000);
             });
         }
         
@@ -256,7 +358,18 @@
         function copyContent() {
             const codeElement = document.getElementById('code-content');
             navigator.clipboard.writeText(codeElement.textContent).then(() => {
-                alert('Content copied to clipboard!');
+                // Find the copy content button
+                const copyBtn = document.querySelector('button[onclick="copyContent()"]');
+                const originalHTML = copyBtn.innerHTML;
+                copyBtn.innerHTML = '<i class="fas fa-check mr-2"></i> copied!';
+                copyBtn.classList.remove('from-blue-500', 'to-purple-600');
+                copyBtn.classList.add('from-green-500', 'to-green-600');
+                
+                setTimeout(() => {
+                    copyBtn.innerHTML = originalHTML;
+                    copyBtn.classList.remove('from-green-500', 'to-green-600');
+                    copyBtn.classList.add('from-blue-500', 'to-purple-600');
+                }, 2000);
             });
         }
         
@@ -274,6 +387,61 @@
                 }
                 lineNumbersElement.innerHTML = lineNumbersHTML;
             }
+        });
+        
+        // === DARK MODE TOGGLE ===
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const darkIcon = document.getElementById('darkIcon');
+        const lightIcon = document.getElementById('lightIcon');
+        
+        // Check saved theme or system preference
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const savedTheme = localStorage.getItem('skibin-theme');
+        
+        // Set initial theme
+        if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+            enableDarkMode();
+        } else {
+            disableDarkMode();
+        }
+        
+        // Toggle dark mode
+        darkModeToggle.addEventListener('click', () => {
+            if (document.documentElement.classList.contains('dark')) {
+                disableDarkMode();
+            } else {
+                enableDarkMode();
+            }
+        });
+        
+        function enableDarkMode() {
+            document.documentElement.classList.add('dark');
+            darkIcon.classList.remove('hidden');
+            lightIcon.classList.add('hidden');
+            localStorage.setItem('skibin-theme', 'dark');
+        }
+        
+        function disableDarkMode() {
+            document.documentElement.classList.remove('dark');
+            darkIcon.classList.add('hidden');
+            lightIcon.classList.remove('hidden');
+            localStorage.setItem('skibin-theme', 'light');
+        }
+        
+        // Listen for system theme changes
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+            if (!localStorage.getItem('skibin-theme')) {
+                if (e.matches) {
+                    enableDarkMode();
+                } else {
+                    disableDarkMode();
+                }
+            }
+        });
+        
+        // Select URL text on click for easier copying
+        document.getElementById('paste-url').addEventListener('click', function() {
+            this.select();
         });
     </script>
 </body>
