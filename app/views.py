@@ -44,6 +44,12 @@ def home(request):
     }
     return render(request, 'home.html', context)
 
+def contact(request):
+    return render(request, "contact.html")
+
+def terms(request):
+    return render(request, "terms.html")
+
 @require_http_methods(["GET", "POST"])
 def create_paste(request):
     """Create a new paste"""
