@@ -218,6 +218,79 @@
             background: transparent !important;
             padding: 0 !important;
         }
+        
+        /* Custom form input styles */
+        input, select, textarea {
+            transition: all 0.2s ease;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            background: white;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+            font-size: 16px;
+            color: #1f2937;
+            outline: none;
+        }
+        
+        .dark .form-input {
+            background: #374151;
+            border-color: #4b5563;
+            color: #f3f4f6;
+        }
+        
+        .form-input:focus {
+            border-color: #f97316;
+            box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
+        }
+        
+        .dark .form-input:focus {
+            border-color: #f97316;
+            box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.2);
+        }
+        
+        .form-select {
+            width: 100%;
+            padding: 12px 16px;
+            background: white url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e") right 12px center no-repeat;
+            background-size: 20px;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+            font-size: 16px;
+            color: #1f2937;
+            outline: none;
+            appearance: none;
+            cursor: pointer;
+        }
+        
+        .dark .form-select {
+            background: #374151 url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%239ca3af' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e") right 12px center no-repeat;
+            background-size: 20px;
+            border-color: #4b5563;
+            color: #f3f4f6;
+        }
+        
+        .form-select:focus {
+            border-color: #f97316;
+            box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
+        }
+        
+        .dark .form-select:focus {
+            border-color: #f97316;
+            box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.2);
+        }
+        
+        .form-select option {
+            background: white;
+            color: #1f2937;
+        }
+        
+        .dark .form-select option {
+            background: #374151;
+            color: #f3f4f6;
+        }
     </style>
 </head>
 <body class="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 transition-colors duration-300">
@@ -295,7 +368,12 @@
                                         <label class="text-gray-700 dark:text-gray-300 font-medium">paste title (optional)</label>
                                         <span class="text-xs text-gray-500 dark:text-gray-400">keep it simple</span>
                                     </div>
-                                    {{ form.title }}
+                                    <input type="text" 
+                                           name="title" 
+                                           id="paste-title"
+                                           placeholder="e.g., api config, game script, notes"
+                                           class="form-input"
+                                           maxlength="100">
                                 </div>
                                 
                                 <!-- Code Editor -->
@@ -312,7 +390,11 @@
                                     
                                     <div class="code-container">
                                         <div class="line-numbers" id="line-numbers">1</div>
-                                        {{ form.content }}
+                                        <textarea name="content" 
+                                                  id="code-input"
+                                                  placeholder="paste your code, config, notes, or whatever here..."
+                                                  class="code-editor"
+                                                  maxlength="500000"></textarea>
                                     </div>
                                     
                                     <div class="mt-2 text-xs text-gray-500 dark:text-gray-400 flex justify-between">
@@ -326,7 +408,30 @@
                                     <label class="block text-gray-700 dark:text-gray-300 font-medium mb-2">
                                         <i class="fas fa-code mr-2"></i>language
                                     </label>
-                                    {{ form.language }}
+                                    <select name="language" id="language-select" class="form-select">
+                                        <option value="plaintext">Plain Text</option>
+                                        <option value="python">Python</option>
+                                        <option value="javascript">JavaScript</option>
+                                        <option value="typescript">TypeScript</option>
+                                        <option value="java">Java</option>
+                                        <option value="cpp">C++</option>
+                                        <option value="c">C</option>
+                                        <option value="csharp">C#</option>
+                                        <option value="go">Go</option>
+                                        <option value="rust">Rust</option>
+                                        <option value="php">PHP</option>
+                                        <option value="ruby">Ruby</option>
+                                        <option value="swift">Swift</option>
+                                        <option value="kotlin">Kotlin</option>
+                                        <option value="html">HTML</option>
+                                        <option value="css">CSS</option>
+                                        <option value="sql">SQL</option>
+                                        <option value="bash">Bash/Shell</option>
+                                        <option value="json">JSON</option>
+                                        <option value="yaml">YAML</option>
+                                        <option value="markdown">Markdown</option>
+                                        <option value="dockerfile">Dockerfile</option>
+                                    </select>
                                 </div>
                             </form>
                             
