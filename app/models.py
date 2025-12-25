@@ -84,3 +84,55 @@ class Paste(models.Model):
     def get_active_pastes(cls):
         """Get non-expired pastes"""
         return cls.objects.filter(expires_at__gt=timezone.now()).count()
+
+class ServiceStatus(models.Model):
+    SERVICE_CHOICES = [
+        ('web', 'Web Interface'),
+        ('api', 'Paste API'),
+        ('db', 'Database'),
+        ('all', 'All Services'),
+    ]
+    
+    STATUS_CHOICES = [
+        ('operational', 'Operational'),
+        ('degraded', 'Degraded Performance'),
+        ('partial', 'Partial Outage'),
+        ('major', 'Major Outage'),
+        ('maintenance', 'Under Maintenance'),
+    ]
+    
+    service = models.CharField(max_length=10, choices=SERVICE_CHOICES)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='operational')
+    message = models.TextField(blank=True)
+    start_time = models.DateTimeField(default=timezone.now)
+    end_time = models.DateTimeField(null=True, blank=True)
+    is_resolved = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"{self.get_service_display()} - {self.get_status_display()}"
+
+class UptimeLog(models.Model):
+    service = models.CharField(max_length=10, choices=ServiceStatus.SERVICE_CHOICES)
+    is_up = models.BooleanField(default=True)
+    response_time = models.FloatField(help_text="Response time in milliseconds")
+    checked_at = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        ordering = ['-checked_at']
+        indexes = [
+            models.Index(fields=['service', 'checked_at']),
+        ]
+    
+    def __str__(self):
+        status = "UP" if self.is_up else "DOWN"
+        return f"{self.get_service_display()} - {status} - {self.checked_at}"
+
+class IncidentUpdate(models.Model):
+    incident = models.ForeignKey(ServiceStatus, on_delete=models.CASCADE, related_name='updates')
+    status = models.CharField(max_length=20, choices=ServiceStatus.STATUS_CHOICES)
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"Update for {self.incident} at {self.created_at}"
