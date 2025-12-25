@@ -5,25 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>create paste | skibin.lol</title>
     
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Configure Tailwind for dark mode -->
     <script>
         tailwind.config = {
             darkMode: 'class'
         }
     </script>
     
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
     
-    <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Highlight.js for syntax highlighting -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
 
@@ -297,7 +292,6 @@
     </style>
 </head>
 <body class="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 transition-colors duration-300">
-    <!-- Navigation -->
     <nav class="sticky top-0 z-50 glass-effect border-b border-gray-200 dark:border-gray-700">
         <div class="container mx-auto px-4 py-3">
             <div class="flex items-center justify-between">
@@ -310,7 +304,6 @@
                     <a href="{% url 'home' %}" class="text-gray-600 dark:text-gray-300 hover:text-pink-600 dark:hover:text-pink-400 font-medium text-sm">
                         ← back to home
                     </a>
-                    <!-- Dark Mode Toggle -->
                     <button id="darkModeToggle" 
                             class="p-2 rounded-full bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 
                                    transition-all duration-300">
@@ -339,7 +332,6 @@
     </div>
     {% endif %}
 
-    <!-- Main Content -->
     <main class="container mx-auto px-4 py-8">
         <div class="max-w-6xl mx-auto">
             <!-- Header -->
@@ -354,7 +346,6 @@
                 </p>
             </div>
             
-            <!-- Paste Form -->
             <div class="grid lg:grid-cols-3 gap-8">
                 <!-- Left Column - Form -->
                 <div class="lg:col-span-2">
@@ -374,7 +365,6 @@
                             </div>
                         </div>
                         
-                        <!-- Form Body -->
                         <div class="p-6">
                             <form method="POST" id="paste-form">
                                 {% csrf_token %}
@@ -393,7 +383,6 @@
                                            maxlength="100">
                                 </div>
                                 
-                                <!-- Code Editor -->
                                 <div class="mb-6">
                                     <div class="flex items-center justify-between mb-2">
                                         <label class="text-gray-700 dark:text-gray-300 font-medium">your code/text</label>
@@ -420,7 +409,6 @@
                                     </div>
                                 </div>
                                 
-                                <!-- Language Selection -->
                                 <div class="mb-8">
                                     <label class="block text-gray-700 dark:text-gray-300 font-medium mb-2">
                                         <i class="fas fa-code mr-2"></i>language
@@ -452,7 +440,6 @@
                                 </div>
                             </form>
                             
-                            <!-- Info Box -->
                             <div class="mb-8 p-4 bg-blue-50 dark:bg-blue-900/30 border border-blue-100 dark:border-blue-800 rounded-xl">
                                 <div class="flex items-start">
                                     <div class="text-blue-500 dark:text-blue-400 mr-3 mt-1">
@@ -467,7 +454,6 @@
                                 </div>
                             </div>
                             
-                            <!-- Action Buttons -->
                             <div class="flex flex-wrap gap-4 pt-4 border-t border-gray-200 dark:border-gray-700">
                                 <button type="submit" form="paste-form" class="px-8 py-3 bg-gradient-to-r from-orange-500 to-pink-600 text-white font-bold rounded-xl btn-3d">
                                     <i class="fas fa-paper-plane mr-2"></i> create paste
@@ -483,7 +469,6 @@
                     </div>
                 </div>
                 
-                <!-- Right Column - Preview & Info -->
                 <div class="space-y-6">
                     <!-- Preview Card -->
                     <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 p-6">
@@ -563,7 +548,6 @@
                 </div>
             </div>
             
-            <!-- Bottom Note -->
             <div class="mt-8 text-center text-gray-500 dark:text-gray-400 text-sm">
                 <p>
                     <i class="fas fa-lock mr-1"></i>
@@ -573,7 +557,6 @@
         </div>
     </main>
 
-    <!-- Footer -->
     <footer class="mt-12 border-t border-gray-200 dark:border-gray-800">
         <div class="container mx-auto px-4 py-6">
             <div class="flex flex-col md:flex-row justify-between items-center">
@@ -592,15 +575,12 @@
     </footer>
 
     <script>
-        // Initialize highlight.js
         hljs.highlightAll();
         
-        // Get form elements
         const titleInput = document.getElementById('paste-title');
         const contentInput = document.getElementById('code-input');
         const languageSelect = document.getElementById('language-select');
         
-        // Update filename based on title input
         function updateFilename() {
             const filenameElement = document.getElementById('filename');
             const language = languageSelect.value;
@@ -640,7 +620,6 @@
             filenameElement.textContent = `${filename}.${extension}`;
         }
         
-        // Update character count
         function updateCharCount() {
             const charCountElement = document.getElementById('char-count');
             const charCount = contentInput.value.length;
@@ -648,23 +627,19 @@
             
             charCountElement.textContent = `${charCount.toLocaleString()} / ${maxChars.toLocaleString()} chars`;
             
-            // Update styling based on count
             charCountElement.classList.remove('warning', 'danger');
             if (charCount > maxChars * 0.8) {
                 charCountElement.classList.add('warning');
             }
             if (charCount > maxChars) {
                 charCountElement.classList.add('danger');
-                // Truncate if over limit
                 contentInput.value = contentInput.value.substring(0, maxChars);
                 updateCharCount();
             }
             
-            // Update preview
             updatePreview();
         }
         
-        // Update line numbers
         function updateLineNumbers() {
             const lines = contentInput.value.split('\n').length;
             const lineNumbersElement = document.getElementById('line-numbers');
@@ -676,12 +651,10 @@
             lineNumbersElement.innerHTML = lineNumbersHTML;
         }
         
-        // Update language badge
         function updateLanguageBadge() {
             const badgeElement = document.getElementById('language-badge-preview');
             const language = languageSelect.value;
             
-            // Language icons mapping
             const icons = {
                 'plaintext': 'fa-file-alt',
                 'python': 'fa-python',
@@ -707,7 +680,6 @@
                 'dockerfile': 'fa-docker'
             };
             
-            // Language names for display
             const names = {
                 'plaintext': 'text',
                 'csharp': 'c#',
@@ -727,7 +699,6 @@
             updatePreview();
         }
         
-        // Update preview with syntax highlighting
         function updatePreview() {
             const codePreview = document.getElementById('code-preview');
             const language = languageSelect.value;
@@ -735,27 +706,22 @@
             codePreview.textContent = contentInput.value || '// your code will appear here\n// with syntax highlighting\n// select a language from the dropdown';
             codePreview.className = `language-${language} hljs`;
             
-            // Re-highlight with highlight.js
             hljs.highlightElement(codePreview);
         }
         
-        // Auto-resize textarea
         contentInput.addEventListener('input', function() {
             this.style.height = 'auto';
             this.style.height = (this.scrollHeight) + 'px';
         });
         
-        // Initialize on load
         document.addEventListener('DOMContentLoaded', function() {
             updateCharCount();
             updateLineNumbers();
             updateLanguageBadge();
             updatePreview();
             
-            // Set initial height for code editor
             contentInput.style.height = '300px';
             
-            // Add event listeners
             titleInput.addEventListener('input', updateFilename);
             contentInput.addEventListener('input', updateCharCount);
             contentInput.addEventListener('input', updateLineNumbers);
@@ -763,7 +729,6 @@
             languageSelect.addEventListener('change', updateLanguageBadge);
         });
         
-        // Example code button
         document.getElementById('example-btn').addEventListener('click', function(e) {
             e.preventDefault();
             const exampleCode = `# example python code
@@ -788,8 +753,7 @@ if __name__ == "__main__":
             updateLanguageBadge();
             updatePreview();
         });
-        
-        // Clear button
+
         document.getElementById('clear-btn').addEventListener('click', function(e) {
             e.preventDefault();
             if (confirm('clear everything? this can\'t be undone')) {
@@ -804,17 +768,14 @@ if __name__ == "__main__":
             }
         });
         
-        // Auto-indent for code (basic)
         contentInput.addEventListener('keydown', function(e) {
             if (e.key === 'Tab') {
                 e.preventDefault();
                 const start = this.selectionStart;
                 const end = this.selectionEnd;
                 
-                // Insert 4 spaces
                 this.value = this.value.substring(0, start) + '    ' + this.value.substring(end);
                 
-                // Move cursor
                 this.selectionStart = this.selectionEnd = start + 4;
                 
                 updateCharCount();
@@ -823,23 +784,19 @@ if __name__ == "__main__":
             }
         });
         
-        // === DARK MODE TOGGLE ===
         const darkModeToggle = document.getElementById('darkModeToggle');
         const darkIcon = document.getElementById('darkIcon');
         const lightIcon = document.getElementById('lightIcon');
         
-        // Check saved theme or system preference
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
         const savedTheme = localStorage.getItem('skibin-theme');
         
-        // Set initial theme
         if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
             enableDarkMode();
         } else {
             disableDarkMode();
         }
         
-        // Toggle dark mode
         darkModeToggle.addEventListener('click', () => {
             if (document.documentElement.classList.contains('dark')) {
                 disableDarkMode();
@@ -862,7 +819,6 @@ if __name__ == "__main__":
             localStorage.setItem('skibin-theme', 'light');
         }
         
-        // Listen for system theme changes
         window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
             if (!localStorage.getItem('skibin-theme')) {
                 if (e.matches) {
