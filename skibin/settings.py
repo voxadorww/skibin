@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-0qr-n99z7r5^fw#0dd)b32p8yu&l(#e5v2h-jp4!3^(h&d$gok
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["skibin.lol"]
 
 TAILWIND_APP_NAME = 'theme'
 
