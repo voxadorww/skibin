@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>status | skibin.lol</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Configure Tailwind for dark mode -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class'
+        }
+    </script>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Same styles as before, but add: */
+        .loading-pulse {
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 transition-colors duration-300">
+    <!-- Navigation (same as before) -->
+    <nav class="sticky top-0 z-50 glass-effect border-b border-gray-200 dark:border-gray-700">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex items-center justify-between">
+                <a href="/" class="flex items-center space-x-2">
+                    <span class="text-2xl">📝</span>
+                    <h1 class="text-xl font-bold gradient-text">skibin.lol</h1>
+                </a>
+                
+                <div class="flex items-center space-x-4">
+                    <!-- Dark Mode Toggle -->
+                    <button id="darkModeToggle" 
+                            class="p-2 rounded-full bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 
+                                   transition-all duration-300">
+                        <span id="darkIcon" class="hidden text-lg">🌙</span>
+                        <span id="lightIcon" class="text-lg">☀️</span>
+                    </button>
+                    
+                    <a href="/new"
+                        class="px-4 py-2 bg-gradient-to-r from-orange-500 to-pink-600 text-white font-semibold rounded-full btn-3d text-sm">
+                        get started
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content - UPDATED FOR REAL-TIME -->
+    <main class="container mx-auto px-4 py-8">
+        <div class="max-w-6xl mx-auto">
+            <!-- Header with auto-refresh -->
+            <div class="mb-8">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+                    <div>
+                        <h1 class="text-4xl font-bold mb-2 gradient-text">service status</h1>
+                        <p class="text-gray-600 dark:text-gray-300">
+                            real-time monitoring • updates every 30 seconds
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="flex items-center">
+                            <div class="w-2 h-2 rounded-full bg-green-500 mr-2" id="live-indicator"></div>
+                            <span class="text-sm text-gray-500 dark:text-gray-400">live</span>
+                        </div>
+                        <button id="refreshBtn" class="px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition">
+                            <i class="fas fa-sync-alt" id="refresh-icon"></i>
+                            <span class="ml-2">refresh now</span>
+                        </button>
+                        <div class="text-sm text-gray-500 dark:text-gray-400" id="last-updated">
+                            <i class="far fa-clock mr-1"></i>
+                            <span>loading...</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Global Status - DYNAMIC -->
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 p-6 mb-8" id="global-status">
+                    <div class="loading-pulse">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-4 h-4 rounded-full bg-gray-300 dark:bg-gray-600"></div>
+                                <h2 class="text-2xl font-bold">loading status...</h2>
+                            </div>
+                            <div class="status-badge bg-gray-200 dark:bg-gray-700 text-gray-500">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                <span>checking</span>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 dark:text-gray-300">
+                            fetching real-time data...
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Services Grid - DYNAMIC -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12" id="services-grid">
+                <!-- Loading skeleton -->
+                <div class="loading-pulse bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 p-6">
+                    <div class="flex items-start justify-between mb-4">
+                        <div>
+                            <div class="h-6 w-24 bg-gray-300 dark:bg-gray-700 rounded mb-2"></div>
+                            <div class="h-4 w-16 bg-gray-200 dark:bg-gray-600 rounded"></div>
+                        </div>
+                        <div class="h-6 w-16 bg-gray-300 dark:bg-gray-700 rounded"></div>
+                    </div>
+                    <div class="mb-4">
+                        <div class="h-4 w-32 bg-gray-200 dark:bg-gray-600 rounded mb-2"></div>
+                        <div class="h-6 bg-gray-300 dark:bg-gray-700 rounded"></div>
+                    </div>
+                    <div class="h-4 w-40 bg-gray-200 dark:bg-gray-600 rounded"></div>
+                </div>
+                <!-- Repeat for 2 more services -->
+            </div>
+            
+            <!-- Stats - DYNAMIC -->
+            <div class="grid md:grid-cols-3 gap-6 mb-12" id="stats-grid">
+                <!-- Loading skeleton -->
+                <div class="loading-pulse bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 
+                            border border-blue-100 dark:border-blue-800 rounded-2xl p-6">
+                    <div class="h-12 w-24 bg-gray-300 dark:bg-gray-700 rounded mb-2"></div>
+                    <div class="h-6 w-32 bg-gray-200 dark:bg-gray-600 rounded mb-2"></div>
+                    <div class="h-4 w-40 bg-gray-200 dark:bg-gray-600 rounded"></div>
+                </div>
+                <!-- Repeat for 2 more stats -->
+            </div>
+            
+            <!-- Recent Incidents - DYNAMIC -->
+            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 p-6 mb-8" id="incidents-container">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-2xl font-bold">recent incidents</h2>
+                    <div class="text-sm text-gray-500 dark:text-gray-400" id="incident-period">
+                        last 90 days • <span id="incident-count">loading...</span>
+                    </div>
+                </div>
+                
+                <div id="incidents-list">
+                    <div class="loading-pulse">
+                        <div class="border-b border-gray-200 dark:border-gray-700 pb-6 mb-6">
+                            <div class="h-6 w-48 bg-gray-300 dark:bg-gray-700 rounded mb-2"></div>
+                            <div class="h-4 w-32 bg-gray-200 dark:bg-gray-600 rounded mb-3"></div>
+                            <div class="h-16 bg-gray-200 dark:bg-gray-600 rounded"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="no-incidents" class="hidden text-center py-8">
+                    <div class="text-5xl mb-4">🎉</div>
+                    <h3 class="text-xl font-bold mb-2">no incidents to report</h3>
+                    <p class="text-gray-600 dark:text-gray-300">
+                        all systems have been running smoothly
+                    </p>
+                </div>
+            </div>
+            
+            <!-- System Info -->
+            <div class="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 
+                        border border-gray-200 dark:border-gray-700 rounded-2xl p-6">
+                <h3 class="text-lg font-bold mb-4">
+                    <i class="fas fa-info-circle mr-2"></i>about this status page
+                </h3>
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div>
+                        <h4 class="font-bold mb-2">⚡ real-time monitoring</h4>
+                        <p class="text-sm text-gray-600 dark:text-gray-300">
+                            checks every 60 seconds from multiple locations
+                        </p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">📊 historical data</h4>
+                        <p class="text-sm text-gray-600 dark:text-gray-300">
+                            90-day incident history with detailed timelines
+                        </p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">🔔 notifications</h4>
+                        <p class="text-sm text-gray-600 dark:text-gray-300">
+                            follow <a href="#" class="text-pink-600 dark:text-pink-400 hover:underline">@skibin_status</a> for updates
+                        </p>
+                    </div>
+                </div>
+                <div class="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700 text-sm text-gray-500 dark:text-gray-400">
+                    <p>
+                        <i class="fas fa-history mr-1"></i>
+                        page auto-refreshes every 30 seconds • last check: <span id="last-check">--:--</span> • 
+                        <a href="/api/status" class="text-pink-600 dark:text-pink-400 hover:underline">json api</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer (same as other pages) -->
+    <footer class="mt-12 border-t border-gray-200 dark:border-gray-800">
+        <div class="container mx-auto px-4 py-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center space-x-2 mb-4 md:mb-0">
+                    <span class="text-xl">📝</span>
+                    <span class="font-bold gradient-text">skibin.lol</span>
+                </div>
+
+                <div class="flex space-x-6 text-gray-600 dark:text-gray-400">
+                    <a href="/" class="hover:text-pink-600 dark:hover:text-pink-400">home</a>
+                    <a href="/status" class="hover:text-pink-600 dark:hover:text-pink-400">status</a>
+                    <a href="/contact" class="hover:text-pink-600 dark:hover:text-pink-400">contact</a>
+                </div>
+            </div>
+
+            <div class="text-center text-gray-500 dark:text-gray-500 text-sm mt-8">
+                made with <span class="text-red-500">❤</span> by nomad • © <span id="current-year"></span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Real-Time Updates -->
+    <script>
+        // === DARK MODE TOGGLE (same as before) ===
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const darkIcon = document.getElementById('darkIcon');
+        const lightIcon = document.getElementById('lightIcon');
+        
+        // Check saved theme or system preference
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const savedTheme = localStorage.getItem('skibin-theme');
+        
+        // Set initial theme
+        if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+            enableDarkMode();
+        } else {
+            disableDarkMode();
+        }
+        
+        // Toggle dark mode
+        darkModeToggle.addEventListener('click', () => {
+            if (document.documentElement.classList.contains('dark')) {
+                disableDarkMode();
+            } else {
+                enableDarkMode();
+            }
+        });
+        
+        function enableDarkMode() {
+            document.documentElement.classList.add('dark');
+            darkIcon.classList.remove('hidden');
+            lightIcon.classList.add('hidden');
+            localStorage.setItem('skibin-theme', 'dark');
+        }
+        
+        function disableDarkMode() {
+            document.documentElement.classList.remove('dark');
+            darkIcon.classList.add('hidden');
+            lightIcon.classList.remove('hidden');
+            localStorage.setItem('skibin-theme', 'light');
+        }
+        
+        // === REAL-TIME STATUS UPDATES ===
+        let refreshInterval;
+        let isRefreshing = false;
+        
+        // Service status mapping
+        const serviceNames = {
+            'web': 'Web Interface',
+            'api': 'Paste API', 
+            'db': 'Database'
+        };
+        
+        // Status colors and icons
+        const statusConfig = {
+            'operational': {
+                color: 'green',
+                icon: 'check-circle',
+                badge: 'status-operational',
+                text: 'Operational'
+            },
+            'degraded': {
+                color: 'yellow', 
+                icon: 'exclamation-triangle',
+                badge: 'status-degraded',
+                text: 'Degraded Performance'
+            },
+            'partial': {
+                color: 'orange',
+                icon: 'exclamation-triangle',
+                badge: 'status-degraded', 
+                text: 'Partial Outage'
+            },
+            'major': {
+                color: 'red',
+                icon: 'times-circle',
+                badge: 'status-down',
+                text: 'Major Outage'
+            },
+            'maintenance': {
+                color: 'blue',
+                icon: 'tools',
+                badge: 'status-degraded',
+                text: 'Under Maintenance'
+            }
+        };
+        
+        // Format time
+        function formatTime(dateStr) {
+            const date = new Date(dateStr);
+            return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }
+        
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            return date.toLocaleDateString([], { 
+                month: 'short', 
+                day: 'numeric',
+                year: 'numeric'
+            });
+        }
+        
+        // Calculate duration
+        function calculateDuration(startStr, endStr = null) {
+            const start = new Date(startStr);
+            const end = endStr ? new Date(endStr) : new Date();
+            
+            const diffMs = end - start;
+            const diffMins = Math.floor(diffMs / 60000);
+            const diffHours = Math.floor(diffMins / 60);
+            const diffDays = Math.floor(diffHours / 24);
+            
+            if (diffDays > 0) return `${diffDays}d ${diffHours % 24}h`;
+            if (diffHours > 0) return `${diffHours}h ${diffMins % 60}m`;
+            return `${diffMins}m`;
+        }
+        
+        // Fetch status data
+        async function fetchStatusData() {
+            if (isRefreshing) return;
+            isRefreshing = true;
+            
+            const refreshIcon = document.getElementById('refresh-icon');
+            refreshIcon.classList.add('fa-spin');
+            
+            try {
+                const response = await fetch('/api/status');
+                const data = await response.json();
+                
+                updateStatusPage(data);
+                
+                // Update last updated time
+                const lastUpdated = document.querySelector('#last-updated span');
+                lastUpdated.textContent = 'just now';
+                
+                // Update last check
+                const lastCheck = document.getElementById('last-check');
+                lastCheck.textContent = formatTime(new Date());
+                
+            } catch (error) {
+                console.error('Failed to fetch status:', error);
+                showErrorState();
+            } finally {
+                isRefreshing = false;
+                refreshIcon.classList.remove('fa-spin');
+            }
+        }
+        
+        // Update the page with new data
+        function updateStatusPage(data) {
+            // Update global status
+            updateGlobalStatus(data);
+            
+            // Update services grid
+            updateServicesGrid(data);
+            
+            // Update stats
+            updateStats(data);
+            
+            // Update incidents
+            updateIncidents(data);
+        }
+        
+        function updateGlobalStatus(data) {
+            const container = document.getElementById('global-status');
+            const hasActiveIncidents = data.status.active_incidents.length > 0;
+            const overallStatus = hasActiveIncidents ? 'issues' : 'operational';
+            const config = overallStatus === 'operational' ? 
+                statusConfig.operational : statusConfig.partial;
+            
+            container.innerHTML = `
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center gap-3">
+                        <div class="relative">
+                            <div class="w-4 h-4 rounded-full bg-${config.color}-500 pulse-animation"></div>
+                            <div class="w-4 h-4 rounded-full bg-${config.color}-500 absolute top-0 left-0 opacity-75 pulse-animation" style="animation-delay: 0.5s"></div>
+                        </div>
+                        <h2 class="text-2xl font-bold">
+                            ${hasActiveIncidents ? 'service issues detected' : 'all systems operational'}
+                        </h2>
+                    </div>
+                    <div class="status-badge ${config.badge}">
+                        <i class="fas fa-${config.icon}"></i>
+                        <span>${config.text}</span>
+                    </div>
+                </div>
+                <p class="text-gray-600 dark:text-gray-300">
+                    ${hasActiveIncidents ? 
+                        `${data.status.active_incidents.length} active incident${data.status.active_incidents.length > 1 ? 's' : ''}.` : 
+                        'All services are running smoothly. No incidents reported.'}
+                </p>
+            `;
+        }
+        
+        function updateServicesGrid(data) {
+            const container = document.getElementById('services-grid');
+            let html = '';
+            
+            for (const [serviceKey, stats] of Object.entries(data.status.services)) {
+                const isUp = stats.uptime > 99;
+                const config = isUp ? statusConfig.operational : statusConfig.degraded;
+                const uptimeColor = stats.uptime > 99.9 ? 'from-green-500 to-emerald-600' :
+                                  stats.uptime > 99 ? 'from-yellow-500 to-amber-600' :
+                                  'from-red-500 to-rose-600';
+                
+                html += `
+                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 p-6">
+                        <div class="flex items-start justify-between mb-4">
+                            <div>
+                                <h3 class="font-bold text-lg mb-1">${serviceNames[serviceKey]}</h3>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">${serviceKey === 'web' ? 'skibin.lol website' : 
+                                        serviceKey === 'api' ? 'create & fetch pastes' : 'paste storage'}</p>
+                            </div>
+                            <div class="status-badge ${config.badge}">
+                                <i class="fas fa-${config.icon}"></i>
+                                <span>${isUp ? 'up' : 'degraded'}</span>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <div class="flex justify-between text-sm mb-1">
+                                <span class="text-gray-600 dark:text-gray-400">uptime</span>
+                                <span class="font-bold">${stats.uptime}%</span>
+                            </div>
+                            <div class="uptime-graph">
+                                <div class="uptime-bar bg-gradient-to-r ${uptimeColor}" style="width: ${stats.uptime}%"></div>
+                            </div>
+                        </div>
+                        <div class="text-sm text-gray-600 dark:text-gray-400">
+                            <i class="fas fa-${serviceKey === 'db' ? 'database' : 'bolt'} mr-1"></i>
+                            ${serviceKey === 'db' ? 'response time' : 'avg latency'}: 
+                            <span class="font-mono font-bold">${stats.avg_response_time.toFixed(1)}ms</span>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            container.innerHTML = html;
+        }
+        
+        function updateStats(data) {
+            const container = document.getElementById('stats-grid');
+            const metrics = data.metrics;
+            
+            container.innerHTML = `
+                <div class="bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 
+                            border border-blue-100 dark:border-blue-800 rounded-2xl p-6">
+                    <div class="text-4xl font-bold mb-2 gradient-text">${data.status.overall_uptime}%</div>
+                    <div class="text-gray-700 dark:text-gray-300">30-day uptime</div>
+                    <div class="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                        <i class="fas fa-arrow-up mr-1 text-green-500"></i>
+                        based on ${metrics.total_checks_24h}+ daily checks
+                    </div>
+                </div>
+                
+                <div class="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 
+                            border border-purple-100 dark:border-purple-800 rounded-2xl p-6">
+                    <div class="text-4xl font-bold mb-2 gradient-text">${data.status.incidents_this_month}</div>
+                    <div class="text-gray-700 dark:text-gray-300">incidents this month</div>
+                    <div class="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                        <i class="fas fa-${data.status.incidents_this_month === 0 ? 'check' : 'exclamation'} mr-1 
+                            ${data.status.incidents_this_month === 0 ? 'text-green-500' : 'text-yellow-500'}"></i>
+                        ${data.status.incidents_this_month === 0 ? 
+                            `${new Date().getDate()} days without downtime` :
+                            'investigation in progress'}
+                    </div>
+                </div>
+                
+                <div class="bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 
+                            border border-orange-100 dark:border-orange-800 rounded-2xl p-6">
+                    <div class="text-4xl font-bold mb-2 gradient-text">${metrics.avg_response_time_all}ms</div>
+                    <div class="text-gray-700 dark:text-gray-300">avg response time</div>
+                    <div class="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                        <i class="fas fa-bolt mr-1 ${metrics.avg_response_time_all < 100 ? 'text-green-500' : 'text-yellow-500'}"></i>
+                        ${metrics.avg_response_time_all < 100 ? 'excellent performance' : 'acceptable performance'}
+                    </div>
+                </div>
+            `;
+        }
+        
+        function updateIncidents(data) {
+            const container = document.getElementById('incidents-list');
+            const noIncidents = document.getElementById('no-incidents');
+            const incidentCount = document.getElementById('incident-count');
+            const incidents = data.recent_incidents;
+            
+            incidentCount.textContent = `${incidents.length} incident${incidents.length !== 1 ? 's' : ''}`;
+            
+            if (incidents.length === 0) {
+                container.classList.add('hidden');
+                noIncidents.classList.remove('hidden');
+                return;
+            }
+            
+            noIncidents.classList.add('hidden');
+            container.classList.remove('hidden');
+            
+            let html = '<div class="incident-timeline relative pl-6">';
+            
+            incidents.forEach(incident => {
+                const config = statusConfig[incident.status.toLowerCase()] || statusConfig.degraded;
+                const duration = incident.is_resolved ? 
+                    calculateDuration(incident.start_time, incident.end_time) :
+                    calculateDuration(incident.start_time);
+                
+                html += `
+                    <div class="mb-8 relative">
+                        <div class="incident-dot bg-${config.color}-500"></div>
+                        <div class="mb-2">
+                            <span class="status-badge ${config.badge} mr-3">
+                                <i class="fas fa-${config.icon}"></i>
+                                ${config.text}
+                            </span>
+                            <span class="text-sm text-gray-500 dark:text-gray-400">
+                                ${formatDate(incident.start_time)} • ${duration}
+                            </span>
+                        </div>
+                        <h3 class="font-bold mb-2">${incident.service} - ${incident.message}</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-3">
+                            ${incident.is_resolved ? 
+                                `Resolved after ${duration}.` : 
+                                `Ongoing for ${duration}.`}
+                        </p>
+                        
+                        ${incident.updates.length > 0 ? `
+                            <div class="bg-gray-50 dark:bg-gray-900 rounded-lg p-4 mt-3">
+                                <h4 class="font-bold text-sm mb-2 text-gray-700 dark:text-gray-300">updates:</h4>
+                                ${incident.updates.map(update => `
+                                    <div class="text-sm mb-2 last:mb-0">
+                                        <span class="text-gray-500 dark:text-gray-400">${formatTime(update.time)}</span>
+                                        <span class="mx-2">•</span>
+                                        <span>${update.message}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            });
+            
+            html += '</div>';
+            container.innerHTML = html;
+        }
+        
+        function showErrorState() {
+            // Update global status to show error
+            const container = document.getElementById('global-status');
+            container.innerHTML = `
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-4 h-4 rounded-full bg-red-500"></div>
+                        <h2 class="text-2xl font-bold">unable to fetch status</h2>
+                    </div>
+                    <div class="status-badge status-down">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <span>error</span>
+                    </div>
+                </div>
+                <p class="text-gray-600 dark:text-gray-300">
+                    cannot connect to status API. please check your connection.
+                </p>
+            `;
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set current year
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+            
+            // Initial fetch
+            fetchStatusData();
+            
+            // Set up auto-refresh every 30 seconds
+            refreshInterval = setInterval(fetchStatusData, 30000);
+            
+            // Manual refresh button
+            document.getElementById('refreshBtn').addEventListener('click', fetchStatusData);
+            
+            // Live indicator animation
+            const liveIndicator = document.getElementById('live-indicator');
+            setInterval(() => {
+                liveIndicator.classList.toggle('opacity-50');
+            }, 1000);
+            
+            // Update "last updated" text every minute
+            setInterval(() => {
+                const lastUpdated = document.querySelector('#last-updated span');
+                const text = lastUpdated.textContent;
+                
+                if (text === 'just now') {
+                    lastUpdated.textContent = '1 minute ago';
+                } else if (text === '1 minute ago') {
+                    lastUpdated.textContent = '2 minutes ago';
+                } else if (text === '2 minutes ago') {
+                    lastUpdated.textContent = '3 minutes ago';
+                }
+                // Stop after 3 minutes
+            }, 60000);
+        });
+        
+        // Clean up on page unload
+        window.addEventListener('beforeunload', () => {
+            if (refreshInterval) {
+                clearInterval(refreshInterval);
+            }
+        });
+    </script>
+</body>
+</html>
