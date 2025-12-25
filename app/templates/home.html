@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 
 <head>
     <meta charset="UTF-8">
@@ -8,6 +8,13 @@
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Configure Tailwind for dark mode -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class'
+        }
+    </script>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -47,7 +54,7 @@
             box-shadow: 0 2px 0 rgba(0, 0, 0, 0.1);
         }
 
-        /* Custom scrollbar */
+        /* Custom scrollbar - with dark mode support */
         ::-webkit-scrollbar {
             width: 8px;
         }
@@ -56,10 +63,18 @@
             background: #f1f1f1;
             border-radius: 10px;
         }
+        
+        .dark ::-webkit-scrollbar-track {
+            background: #374151;
+        }
 
         ::-webkit-scrollbar-thumb {
             background: linear-gradient(180deg, #f97316, #db2777);
             border-radius: 10px;
+        }
+        
+        .dark ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #ea580c, #be185d);
         }
 
         .emoji-float {
@@ -104,117 +119,21 @@
             overflow: hidden;
             background: #e5e7eb;
         }
+        
+        .dark .progress-bar {
+            background: #374151;
+        }
 
         .progress-fill {
             height: 100%;
             transition: width 1s ease-in-out;
         }
-
-                /* === DARK MODE STYLES === */
-        .dark-mode {
-            background: #111827 !important;
-            color: #f3f4f6 !important;
-        }
-        
-        .dark-mode .bg-white {
-            background-color: #1f2937 !important;
-        }
-        
-        .dark-mode .bg-gray-50 {
-            background-color: #374151 !important;
-        }
-        
-        .dark-mode .bg-gray-100 {
-            background-color: #4b5563 !important;
-        }
-        
-        .dark-mode .border-gray-200 {
-            border-color: #374151 !important;
-        }
-        
-        .dark-mode .border-gray-300 {
-            border-color: #4b5563 !important;
-        }
-        
-        .dark-mode .text-gray-600 {
-            color: #d1d5db !important;
-        }
-        
-        .dark-mode .text-gray-700 {
-            color: #e5e7eb !important;
-        }
-        
-        .dark-mode .text-gray-800 {
-            color: #f3f4f6 !important;
-        }
-        
-        .dark-mode .bg-gradient-to-br {
-            background: linear-gradient(135deg, #111827 0%, #1f2937 100%) !important;
-        }
-        
-        /* Specific components */
-        .dark-mode .bg-yellow-50 {
-            background-color: #78350f !important;
-        }
-        
-        .dark-mode .border-yellow-200 {
-            border-color: #92400e !important;
-        }
-        
-        .dark-mode .text-yellow-700 {
-            color: #fef3c7 !important;
-        }
-        
-        .dark-mode .text-yellow-800 {
-            color: #fef3c7 !important;
-        }
-        
-        .dark-mode .bg-blue-50 {
-            background-color: #1e3a8a !important;
-        }
-        
-        .dark-mode .border-blue-100 {
-            border-color: #1e40af !important;
-        }
-        
-        .dark-mode .text-blue-800 {
-            color: #dbeafe !important;
-        }
-        
-        .dark-mode .bg-orange-50 {
-            background-color: #7c2d12 !important;
-        }
-        
-        .dark-mode .border-orange-100 {
-            border-color: #9a3412 !important;
-        }
-        
-        .dark-mode .shadow-lg {
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5) !important;
-        }
-        
-        /* Code editor already dark, but ensure consistency */
-        .dark-mode .code-container {
-            background: #0d1117 !important;
-        }
-        
-        .dark-mode .code-editor {
-            background: #0d1117 !important;
-            border-color: #30363d !important;
-        }
-        
-        .dark-mode .preview-code {
-            background: #0d1117 !important;
-        }
-        
-        .dark-mode .hljs {
-            background: #0d1117 !important;
-        }
     </style>
 </head>
 
-<!-- Navigation -->
-    <nav class="sticky top-0 z-50 backdrop-blur-md bg-white/70 dark:bg-gray-800/70 border-b border-gray-200 dark:border-gray-700">
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 transition-colors duration-300">
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 backdrop-blur-md bg-white/70 dark:bg-gray-900/70 border-b border-gray-200 dark:border-gray-700">
         <div class="container mx-auto px-4 py-3">
             <div class="flex items-center justify-between">
                 <a href="/" class="flex items-center space-x-2">
@@ -247,13 +166,14 @@
     <main class="container mx-auto px-4 py-8">
         <!-- Ad Support Message -->
         <div
-            class="mb-8 p-4 bg-gradient-to-r from-yellow-50 to-orange-50 border border-yellow-200 rounded-2xl text-center">
+            class="mb-8 p-4 bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 
+                   border border-yellow-200 dark:border-yellow-800 rounded-2xl text-center">
             <div class="flex items-center justify-center gap-3 mb-2">
                 <i class="fas fa-heart text-red-500 text-xl"></i>
-                <span class="text-lg font-bold text-yellow-800">ads help us stay free!</span>
+                <span class="text-lg font-bold text-yellow-800 dark:text-yellow-200">ads help us stay free!</span>
                 <i class="fas fa-heart text-red-500 text-xl"></i>
             </div>
-            <p class="text-yellow-700 text-sm">
+            <p class="text-yellow-700 dark:text-yellow-300 text-sm">
                 please consider disabling ad blockers • your support keeps skibin.lol running • thank you! 🙏
             </p>
         </div>
@@ -263,28 +183,28 @@
             <h2 class="text-3xl font-bold text-center mb-12 gradient-text">how it works</h2>
 
             <div class="grid md:grid-cols-3 gap-8">
-                <div class="bg-white p-6 rounded-2xl shadow-md border border-gray-100">
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md border border-gray-100 dark:border-gray-700">
                     <div class="text-4xl mb-4">1.</div>
                     <h3 class="text-xl font-bold mb-3">paste anything</h3>
-                    <p class="text-gray-600">
+                    <p class="text-gray-600 dark:text-gray-300">
                         code, configs, notes, links.
                         just paste it in.
                     </p>
                 </div>
 
-                <div class="bg-white p-6 rounded-2xl shadow-md border border-gray-100">
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md border border-gray-100 dark:border-gray-700">
                     <div class="text-4xl mb-4">2.</div>
                     <h3 class="text-xl font-bold mb-3">get a link</h3>
-                    <p class="text-gray-600">
+                    <p class="text-gray-600 dark:text-gray-300">
                         we give you a short link.
                         share it anywhere.
                     </p>
                 </div>
 
-                <div class="bg-white p-6 rounded-2xl shadow-md border border-gray-100">
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md border border-gray-100 dark:border-gray-700">
                     <div class="text-4xl mb-4">3.</div>
                     <h3 class="text-xl font-bold mb-3">done</h3>
-                    <p class="text-gray-600">
+                    <p class="text-gray-600 dark:text-gray-300">
                         that's it. no accounts,
                         no email, just works.
                     </p>
@@ -297,12 +217,12 @@
             <h2 class="text-3xl font-bold text-center mb-12 gradient-text">why skibin</h2>
 
             <div class="space-y-6">
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700">
                     <div class="flex items-start">
                         <div class="text-2xl mr-4">⚡</div>
                         <div>
                             <h3 class="text-xl font-bold mb-2">fast af</h3>
-                            <p class="text-gray-600">
+                            <p class="text-gray-600 dark:text-gray-300">
                                 loads in seconds. create pastes instantly.
                                 no waiting around.
                             </p>
@@ -310,12 +230,12 @@
                     </div>
                 </div>
 
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700">
                     <div class="flex items-start">
                         <div class="text-2xl mr-4">🔒</div>
                         <div>
                             <h3 class="text-xl font-bold mb-2">private by default</h3>
-                            <p class="text-gray-600">
+                            <p class="text-gray-600 dark:text-gray-300">
                                 pastes are unlisted. only people with the link
                                 can see them. no public listings.
                             </p>
@@ -323,12 +243,12 @@
                     </div>
                 </div>
 
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700">
                     <div class="flex items-start">
                         <div class="text-2xl mr-4">📱</div>
                         <div>
                             <h3 class="text-xl font-bold mb-2">works anywhere</h3>
-                            <p class="text-gray-600">
+                            <p class="text-gray-600 dark:text-gray-300">
                                 desktop, phone, tablet.
                                 looks good everywhere.
                             </p>
@@ -341,15 +261,16 @@
         <br><br>
 
         <!-- Live Stats Dashboard -->
-        <div class="mb-12 bg-white rounded-2xl shadow-lg border border-gray-200 p-6">
+        <div class="mb-12 bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 p-6">
             <h2 class="text-2xl font-bold text-center mb-6 gradient-text">📈 live stats</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <!-- Total Pastes -->
-                <div class="p-4 bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl border border-gray-200">
+                <div class="p-4 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 
+                            rounded-xl border border-gray-200 dark:border-gray-600">
                     <div class="flex items-center justify-between mb-3">
                         <div>
                             <div class="text-3xl font-bold gradient-text stat-pulse" id="total-pastes">{{ total_pastes }}</div>
-                            <div class="text-gray-600">total pastes</div>
+                            <div class="text-gray-600 dark:text-gray-300">total pastes</div>
                         </div>
                         <div class="text-3xl">📊</div>
                     </div>
@@ -357,18 +278,19 @@
                         <div class="progress-fill bg-gradient-to-r from-orange-500 to-pink-600"
                             style="width: {{ paste_progress }}%"></div>
                     </div>
-                    <div class="text-xs text-gray-500 mt-2 flex justify-between">
+                    <div class="text-xs text-gray-500 dark:text-gray-400 mt-2 flex justify-between">
                         <span>{{ active_pastes }} active</span>
                         <span>{{ total_pastes|add:"-active_pastes" }} expired</span>
                     </div>
                 </div>
 
                 <!-- Characters Shared -->
-                <div class="p-4 bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl border border-gray-200">
+                <div class="p-4 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 
+                            rounded-xl border border-gray-200 dark:border-gray-600">
                     <div class="flex items-center justify-between mb-3">
                         <div>
                             <div class="text-3xl font-bold gradient-text stat-pulse">{{ chars_display }}</div>
-                            <div class="text-gray-600">characters shared</div>
+                            <div class="text-gray-600 dark:text-gray-300">characters shared</div>
                         </div>
                         <div class="text-3xl">🔤</div>
                     </div>
@@ -387,7 +309,7 @@
                         </div>
                         {% endif %}
                     </div>
-                    <div class="text-xs text-gray-500 mt-2 text-center">
+                    <div class="text-xs text-gray-500 dark:text-gray-400 mt-2 text-center">
                         {% if total_chars > 1000000 %}
                         🎉 over 1 million! 🎉
                         {% elif total_chars > 100000 %}
@@ -399,14 +321,14 @@
                 </div>
 
                 <!-- Average Size -->
-                <!-- Average Size -->
-                <div class="p-4 bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl border border-gray-200">
+                <div class="p-4 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 
+                            rounded-xl border border-gray-200 dark:border-gray-600">
                     <div class="flex items-center justify-between mb-3">
                         <div>
                             <div class="text-3xl font-bold gradient-text stat-pulse">
                                 {{ avg_size|floatformat:0 }}
                             </div>
-                            <div class="text-gray-600">avg. paste size</div>
+                            <div class="text-gray-600 dark:text-gray-300">avg. paste size</div>
                         </div>
                         <div class="text-3xl">⚖️</div>
                     </div>
@@ -421,7 +343,7 @@
                         <div class="progress-fill bg-gradient-to-r from-blue-500 to-cyan-600" style="width: 30%"></div>
                         {% endif %}
                     </div>
-                    <div class="text-xs text-gray-500 mt-2 text-center">
+                    <div class="text-xs text-gray-500 dark:text-gray-400 mt-2 text-center">
                         {% if avg_size > 1000 %}big pastes! 📚{% elif avg_size > 500 %}healthy size 📝{% else %}short &
                         sweet ✨{% endif %}
                     </div>
@@ -429,8 +351,8 @@
             </div>
 
             <!-- Stats Footer -->
-            <div class="mt-6 pt-4 border-t border-gray-200 text-center">
-                <p class="text-sm text-gray-600">
+            <div class="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700 text-center">
+                <p class="text-sm text-gray-600 dark:text-gray-300">
                     <i class="fas fa-sync-alt mr-1"></i>
                     stats update in real-time • every paste helps grow the community
                 </p>
@@ -439,9 +361,10 @@
 
         <!-- CTA -->
         <div class="max-w-3xl mx-auto mt-20 text-center">
-            <div class="bg-gradient-to-r from-orange-50 to-pink-50 border border-orange-100 rounded-2xl p-8 md:p-12">
+            <div class="bg-gradient-to-r from-orange-50 to-pink-50 dark:from-orange-900/20 dark:to-pink-900/20 
+                        border border-orange-100 dark:border-orange-800 rounded-2xl p-8 md:p-12">
                 <h2 class="text-3xl font-bold mb-4">ready to paste?</h2>
-                <p class="text-gray-600 mb-8 text-lg">
+                <p class="text-gray-600 dark:text-gray-300 mb-8 text-lg">
                     no signup needed. free forever.
                     just paste and share.
                 </p>
@@ -449,7 +372,7 @@
                     class="inline-block px-8 py-4 bg-gradient-to-r from-orange-500 to-pink-600 text-white font-bold rounded-xl btn-3d text-lg">
                     start pasting now
                 </a>
-                <p class="text-gray-500 text-sm mt-4">
+                <p class="text-gray-500 dark:text-gray-400 text-sm mt-4">
                     literally takes 10 seconds
                 </p>
             </div>
@@ -457,7 +380,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="mt-20 border-t border-gray-200">
+    <footer class="mt-20 border-t border-gray-200 dark:border-gray-800">
         <div class="container mx-auto px-4 py-8">
             <div class="flex flex-col md:flex-row justify-between items-center">
                 <div class="flex items-center space-x-2 mb-4 md:mb-0">
@@ -465,15 +388,15 @@
                     <span class="font-bold gradient-text">skibin.lol</span>
                 </div>
 
-                <div class="flex space-x-6 text-gray-600">
-                    <a href="#" class="hover:text-pink-600">status</a>
-                    <a href="#" class="hover:text-pink-600">twitter</a>
-                    <a href="#" class="hover:text-pink-600">github</a>
-                    <a href="#" class="hover:text-pink-600">contact</a>
+                <div class="flex space-x-6 text-gray-600 dark:text-gray-400">
+                    <a href="#" class="hover:text-pink-600 dark:hover:text-pink-400">status</a>
+                    <a href="#" class="hover:text-pink-600 dark:hover:text-pink-400">twitter</a>
+                    <a href="#" class="hover:text-pink-600 dark:hover:text-pink-400">github</a>
+                    <a href="#" class="hover:text-pink-600 dark:hover:text-pink-400">contact</a>
                 </div>
             </div>
 
-            <div class="text-center text-gray-500 text-sm mt-8">
+            <div class="text-center text-gray-500 dark:text-gray-500 text-sm mt-8">
                 made with <span class="text-red-500">❤</span> by nomad • © {{ current_year }}
             </div>
         </div>
@@ -515,7 +438,7 @@
             });
         });
 
-         // === DARK MODE TOGGLE ===
+        // === DARK MODE TOGGLE ===
         const darkModeToggle = document.getElementById('darkModeToggle');
         const darkIcon = document.getElementById('darkIcon');
         const lightIcon = document.getElementById('lightIcon');
@@ -527,11 +450,13 @@
         // Set initial theme
         if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
             enableDarkMode();
+        } else {
+            disableDarkMode();
         }
         
         // Toggle dark mode
         darkModeToggle.addEventListener('click', () => {
-            if (document.body.classList.contains('dark-mode')) {
+            if (document.documentElement.classList.contains('dark')) {
                 disableDarkMode();
             } else {
                 enableDarkMode();
@@ -539,14 +464,14 @@
         });
         
         function enableDarkMode() {
-            document.body.classList.add('dark-mode');
+            document.documentElement.classList.add('dark');
             darkIcon.classList.remove('hidden');
             lightIcon.classList.add('hidden');
             localStorage.setItem('skibin-theme', 'dark');
         }
         
         function disableDarkMode() {
-            document.body.classList.remove('dark-mode');
+            document.documentElement.classList.remove('dark');
             darkIcon.classList.add('hidden');
             lightIcon.classList.remove('hidden');
             localStorage.setItem('skibin-theme', 'light');
@@ -564,5 +489,4 @@
         });
     </script>
 </body>
-
 </html>
