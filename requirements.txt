@@ -1,0 +1,7 @@
+Django>=4.0
+tailwind
+django-tailwind
+gunicorn
+psycopg2-binary
+whitenoise
+dj-database-url
