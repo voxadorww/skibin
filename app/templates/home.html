@@ -6,23 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>skibin.lol | text sharing but chill</title>
 
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Configure Tailwind for dark mode -->
     <script>
         tailwind.config = {
             darkMode: 'class'
         }
     </script>
 
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
 
-    <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5653411333184686"
@@ -135,7 +131,6 @@
 </head>
 
 <body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 transition-colors duration-300">
-    <!-- Navigation -->
     <nav class="sticky top-0 z-50 backdrop-blur-md bg-white/70 dark:bg-gray-900/70 border-b border-gray-200 dark:border-gray-700">
         <div class="container mx-auto px-4 py-3">
             <div class="flex items-center justify-between">
@@ -145,7 +140,6 @@
                 </a>
                 
                 <div class="flex items-center space-x-4">
-                    <!-- Dark Mode Toggle -->
                     <button id="darkModeToggle" 
                             class="p-2 rounded-full bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 
                                    transition-all duration-300">
@@ -153,7 +147,6 @@
                         <span id="lightIcon" class="text-lg">☀️</span>
                     </button>
                     
-                    <!-- Only show "Get Started" on homepage -->
                     {% if request.path == '/' %}
                     <a href="/new"
                         class="px-4 py-2 bg-gradient-to-r from-orange-500 to-pink-600 text-white font-semibold rounded-full btn-3d text-sm">
@@ -165,9 +158,7 @@
         </div>
     </nav>
 
-    <!-- Hero -->
     <main class="container mx-auto px-4 py-8">
-        <!-- Ad Support Message -->
         <div
             class="mb-8 p-4 bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 
                    border border-yellow-200 dark:border-yellow-800 rounded-2xl text-center">
@@ -181,7 +172,6 @@
             </p>
         </div>
 
-        <!-- How it works -->
         <div id="how" class="max-w-4xl mx-auto mt-20">
             <h2 class="text-3xl font-bold text-center mb-12 gradient-text">how it works</h2>
 
@@ -215,7 +205,6 @@
             </div>
         </div>
 
-        <!-- Features -->
         <div class="max-w-4xl mx-auto mt-20">
             <h2 class="text-3xl font-bold text-center mb-12 gradient-text">why skibin</h2>
 
@@ -263,11 +252,9 @@
 
         <br><br>
 
-        <!-- Live Stats Dashboard -->
         <div class="mb-12 bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 p-6">
             <h2 class="text-2xl font-bold text-center mb-6 gradient-text">📈 live stats</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Total Pastes -->
                 <div class="p-4 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 
                             rounded-xl border border-gray-200 dark:border-gray-600">
                     <div class="flex items-center justify-between mb-3">
@@ -287,7 +274,6 @@
                     </div>
                 </div>
 
-                <!-- Characters Shared -->
                 <div class="p-4 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 
                             rounded-xl border border-gray-200 dark:border-gray-600">
                     <div class="flex items-center justify-between mb-3">
@@ -323,7 +309,6 @@
                     </div>
                 </div>
 
-                <!-- Average Size -->
                 <div class="p-4 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 
                             rounded-xl border border-gray-200 dark:border-gray-600">
                     <div class="flex items-center justify-between mb-3">
@@ -353,7 +338,6 @@
                 </div>
             </div>
 
-            <!-- Stats Footer -->
             <div class="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700 text-center">
                 <p class="text-sm text-gray-600 dark:text-gray-300">
                     <i class="fas fa-sync-alt mr-1"></i>
@@ -362,7 +346,6 @@
             </div>
         </div>
 
-        <!-- CTA -->
         <div class="max-w-3xl mx-auto mt-20 text-center">
             <div class="bg-gradient-to-r from-orange-50 to-pink-50 dark:from-orange-900/20 dark:to-pink-900/20 
                         border border-orange-100 dark:border-orange-800 rounded-2xl p-8 md:p-12">
@@ -382,7 +365,6 @@
         </div>
     </main>
 
-    <!-- Footer -->
     <footer class="mt-20 border-t border-gray-200 dark:border-gray-800">
         <div class="container mx-auto px-4 py-8">
             <div class="flex flex-col md:flex-row justify-between items-center">
@@ -392,10 +374,9 @@
                 </div>
 
                 <div class="flex space-x-6 text-gray-600 dark:text-gray-400">
-                    <a href="#" class="hover:text-pink-600 dark:hover:text-pink-400">status</a>
-                    <a href="#" class="hover:text-pink-600 dark:hover:text-pink-400">twitter</a>
-                    <a href="#" class="hover:text-pink-600 dark:hover:text-pink-400">github</a>
-                    <a href="#" class="hover:text-pink-600 dark:hover:text-pink-400">contact</a>
+                    <a href="/terms" class="hover:text-pink-600 dark:hover:text-pink-400">terms</a>
+                    <a href="/contact" class="hover:text-pink-600 dark:hover:text-pink-400">contact</a>
+                    <a href="/new" class="hover:text-pink-600 dark:hover:text-pink-400">new paste</a>
                 </div>
             </div>
 
@@ -406,7 +387,6 @@
     </footer>
 
     <script>
-        // Smooth scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -420,9 +400,7 @@
             });
         });
 
-        // Animate stats on load
         document.addEventListener('DOMContentLoaded', function () {
-            // Add pulse animation to stats
             const stats = document.querySelectorAll('.stat-pulse');
             stats.forEach((stat, index) => {
                 setTimeout(() => {
@@ -430,7 +408,6 @@
                 }, index * 300);
             });
 
-            // Animate progress bars
             const progressBars = document.querySelectorAll('.progress-fill');
             progressBars.forEach(bar => {
                 const originalWidth = bar.style.width;
@@ -441,23 +418,19 @@
             });
         });
 
-        // === DARK MODE TOGGLE ===
         const darkModeToggle = document.getElementById('darkModeToggle');
         const darkIcon = document.getElementById('darkIcon');
         const lightIcon = document.getElementById('lightIcon');
         
-        // Check saved theme or system preference
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
         const savedTheme = localStorage.getItem('skibin-theme');
         
-        // Set initial theme
         if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
             enableDarkMode();
         } else {
             disableDarkMode();
         }
         
-        // Toggle dark mode
         darkModeToggle.addEventListener('click', () => {
             if (document.documentElement.classList.contains('dark')) {
                 disableDarkMode();
@@ -480,7 +453,6 @@
             localStorage.setItem('skibin-theme', 'light');
         }
         
-        // Listen for system theme changes
         window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
             if (!localStorage.getItem('skibin-theme')) {
                 if (e.matches) {
