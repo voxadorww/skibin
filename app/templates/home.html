@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>skibin.lol | text sharing but chill</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, #f97316, #db2777, #7c3aed);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+        }
+
+        .btn-3d {
+            transform: translateY(0);
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-3d:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-3d:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #f97316, #db2777);
+            border-radius: 10px;
+        }
+
+        .emoji-float {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .stat-pulse {
+            animation: statPulse 2s ease-in-out;
+        }
+
+        @keyframes statPulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .progress-bar {
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            background: #e5e7eb;
+        }
+
+        .progress-fill {
+            height: 100%;
+            transition: width 1s ease-in-out;
+        }
+    </style>
+</head>
+
+<body class="bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 backdrop-blur-md bg-white/70 border-b border-gray-200">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex items-center justify-between">
+                <a href="/" class="flex items-center space-x-2">
+                    <span class="text-2xl">📝</span>
+                    <h1 class="text-xl font-bold gradient-text">skibin.lol</h1>
+                </a>
+
+                <a href="/new"
+                    class="px-4 py-2 bg-gradient-to-r from-orange-500 to-pink-600 text-white font-semibold rounded-full btn-3d text-sm">
+                    get started
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Ad Support Message -->
+        <div
+            class="mb-8 p-4 bg-gradient-to-r from-yellow-50 to-orange-50 border border-yellow-200 rounded-2xl text-center">
+            <div class="flex items-center justify-center gap-3 mb-2">
+                <i class="fas fa-heart text-red-500 text-xl"></i>
+                <span class="text-lg font-bold text-yellow-800">ads help us stay free!</span>
+                <i class="fas fa-heart text-red-500 text-xl"></i>
+            </div>
+            <p class="text-yellow-700 text-sm">
+                please consider disabling ad blockers • your support keeps skibin.lol running • thank you! 🙏
+            </p>
+        </div>
+
+        <!-- How it works -->
+        <div id="how" class="max-w-4xl mx-auto mt-20">
+            <h2 class="text-3xl font-bold text-center mb-12 gradient-text">how it works</h2>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-2xl shadow-md border border-gray-100">
+                    <div class="text-4xl mb-4">1.</div>
+                    <h3 class="text-xl font-bold mb-3">paste anything</h3>
+                    <p class="text-gray-600">
+                        code, configs, notes, links.
+                        just paste it in.
+                    </p>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-md border border-gray-100">
+                    <div class="text-4xl mb-4">2.</div>
+                    <h3 class="text-xl font-bold mb-3">get a link</h3>
+                    <p class="text-gray-600">
+                        we give you a short link.
+                        share it anywhere.
+                    </p>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-md border border-gray-100">
+                    <div class="text-4xl mb-4">3.</div>
+                    <h3 class="text-xl font-bold mb-3">done</h3>
+                    <p class="text-gray-600">
+                        that's it. no accounts,
+                        no email, just works.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features -->
+        <div class="max-w-4xl mx-auto mt-20">
+            <h2 class="text-3xl font-bold text-center mb-12 gradient-text">why skibin</h2>
+
+            <div class="space-y-6">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                    <div class="flex items-start">
+                        <div class="text-2xl mr-4">⚡</div>
+                        <div>
+                            <h3 class="text-xl font-bold mb-2">fast af</h3>
+                            <p class="text-gray-600">
+                                loads in seconds. create pastes instantly.
+                                no waiting around.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                    <div class="flex items-start">
+                        <div class="text-2xl mr-4">🔒</div>
+                        <div>
+                            <h3 class="text-xl font-bold mb-2">private by default</h3>
+                            <p class="text-gray-600">
+                                pastes are unlisted. only people with the link
+                                can see them. no public listings.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                    <div class="flex items-start">
+                        <div class="text-2xl mr-4">📱</div>
+                        <div>
+                            <h3 class="text-xl font-bold mb-2">works anywhere</h3>
+                            <p class="text-gray-600">
+                                desktop, phone, tablet.
+                                looks good everywhere.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <br><br>
+
+        <!-- Live Stats Dashboard -->
+        <div class="mb-12 bg-white rounded-2xl shadow-lg border border-gray-200 p-6">
+            <h2 class="text-2xl font-bold text-center mb-6 gradient-text">📈 live stats</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Total Pastes -->
+                <div class="p-4 bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl border border-gray-200">
+                    <div class="flex items-center justify-between mb-3">
+                        <div>
+                            <div class="text-3xl font-bold gradient-text stat-pulse" id="total-pastes">{{ total_pastes }}</div>
+                            <div class="text-gray-600">total pastes</div>
+                        </div>
+                        <div class="text-3xl">📊</div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill bg-gradient-to-r from-orange-500 to-pink-600"
+                            style="width: {{ paste_progress }}%"></div>
+                    </div>
+                    <div class="text-xs text-gray-500 mt-2 flex justify-between">
+                        <span>{{ active_pastes }} active</span>
+                        <span>{{ total_pastes|add:"-active_pastes" }} expired</span>
+                    </div>
+                </div>
+
+                <!-- Characters Shared -->
+                <div class="p-4 bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl border border-gray-200">
+                    <div class="flex items-center justify-between mb-3">
+                        <div>
+                            <div class="text-3xl font-bold gradient-text stat-pulse">{{ chars_display }}</div>
+                            <div class="text-gray-600">characters shared</div>
+                        </div>
+                        <div class="text-3xl">🔤</div>
+                    </div>
+                    <div class="progress-bar">
+                        {% if total_chars > 1000000 %}
+                        <div class="progress-fill bg-gradient-to-r from-pink-500 to-purple-600" style="width: 100%">
+                        </div>
+                        {% elif total_chars > 100000 %}
+                        <div class="progress-fill bg-gradient-to-r from-pink-500 to-purple-600" style="width: 70%">
+                        </div>
+                        {% elif total_chars > 10000 %}
+                        <div class="progress-fill bg-gradient-to-r from-pink-500 to-purple-600" style="width: 40%">
+                        </div>
+                        {% else %}
+                        <div class="progress-fill bg-gradient-to-r from-pink-500 to-purple-600" style="width: 20%">
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="text-xs text-gray-500 mt-2 text-center">
+                        {% if total_chars > 1000000 %}
+                        🎉 over 1 million! 🎉
+                        {% elif total_chars > 100000 %}
+                        {{ total_chars|floatformat:0 }} chars and counting
+                        {% else %}
+                        growing every day!
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Average Size -->
+                <!-- Average Size -->
+                <div class="p-4 bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl border border-gray-200">
+                    <div class="flex items-center justify-between mb-3">
+                        <div>
+                            <div class="text-3xl font-bold gradient-text stat-pulse">
+                                {{ avg_size|floatformat:0 }}
+                            </div>
+                            <div class="text-gray-600">avg. paste size</div>
+                        </div>
+                        <div class="text-3xl">⚖️</div>
+                    </div>
+                    <div class="progress-bar">
+                        {% if avg_size > 1000 %}
+                        <div class="progress-fill bg-gradient-to-r from-blue-500 to-cyan-600" style="width: 100%"></div>
+                        {% elif avg_size > 500 %}
+                        <div class="progress-fill bg-gradient-to-r from-blue-500 to-cyan-600" style="width: 80%"></div>
+                        {% elif avg_size > 100 %}
+                        <div class="progress-fill bg-gradient-to-r from-blue-500 to-cyan-600" style="width: 50%"></div>
+                        {% else %}
+                        <div class="progress-fill bg-gradient-to-r from-blue-500 to-cyan-600" style="width: 30%"></div>
+                        {% endif %}
+                    </div>
+                    <div class="text-xs text-gray-500 mt-2 text-center">
+                        {% if avg_size > 1000 %}big pastes! 📚{% elif avg_size > 500 %}healthy size 📝{% else %}short &
+                        sweet ✨{% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Footer -->
+            <div class="mt-6 pt-4 border-t border-gray-200 text-center">
+                <p class="text-sm text-gray-600">
+                    <i class="fas fa-sync-alt mr-1"></i>
+                    stats update in real-time • every paste helps grow the community
+                </p>
+            </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="max-w-3xl mx-auto mt-20 text-center">
+            <div class="bg-gradient-to-r from-orange-50 to-pink-50 border border-orange-100 rounded-2xl p-8 md:p-12">
+                <h2 class="text-3xl font-bold mb-4">ready to paste?</h2>
+                <p class="text-gray-600 mb-8 text-lg">
+                    no signup needed. free forever.
+                    just paste and share.
+                </p>
+                <a href="/new"
+                    class="inline-block px-8 py-4 bg-gradient-to-r from-orange-500 to-pink-600 text-white font-bold rounded-xl btn-3d text-lg">
+                    start pasting now
+                </a>
+                <p class="text-gray-500 text-sm mt-4">
+                    literally takes 10 seconds
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-20 border-t border-gray-200">
+        <div class="container mx-auto px-4 py-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center space-x-2 mb-4 md:mb-0">
+                    <span class="text-xl">📝</span>
+                    <span class="font-bold gradient-text">skibin.lol</span>
+                </div>
+
+                <div class="flex space-x-6 text-gray-600">
+                    <a href="#" class="hover:text-pink-600">status</a>
+                    <a href="#" class="hover:text-pink-600">twitter</a>
+                    <a href="#" class="hover:text-pink-600">github</a>
+                    <a href="#" class="hover:text-pink-600">contact</a>
+                </div>
+            </div>
+
+            <div class="text-center text-gray-500 text-sm mt-8">
+                made with <span class="text-red-500">❤</span> by nomad • © {{ current_year }}
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Animate stats on load
+        document.addEventListener('DOMContentLoaded', function () {
+            // Add pulse animation to stats
+            const stats = document.querySelectorAll('.stat-pulse');
+            stats.forEach((stat, index) => {
+                setTimeout(() => {
+                    stat.classList.add('stat-pulse');
+                }, index * 300);
+            });
+
+            // Animate progress bars
+            const progressBars = document.querySelectorAll('.progress-fill');
+            progressBars.forEach(bar => {
+                const originalWidth = bar.style.width;
+                bar.style.width = '0%';
+                setTimeout(() => {
+                    bar.style.width = originalWidth;
+                }, 500);
+            });
+        });
+    </script>
+</body>
+
+</html>

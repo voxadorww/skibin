@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>create paste | skibin.lol</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Highlight.js for syntax highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            min-height: 100vh;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(90deg, #f97316, #db2777, #7c3aed);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+        }
+        
+        .btn-3d {
+            transform: translateY(0);
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-3d:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-3d:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 rgba(0, 0, 0, 0.1);
+        }
+        
+        .code-container {
+            position: relative;
+            min-height: 300px;
+            border-radius: 12px;
+            overflow: hidden;
+            font-family: 'JetBrains Mono', monospace;
+            background: #0d1117;
+        }
+        
+        .line-numbers {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 50px;
+            background: #161b22;
+            color: #8b949e;
+            text-align: right;
+            padding: 16px 8px;
+            font-size: 14px;
+            line-height: 1.5;
+            user-select: none;
+            z-index: 1;
+            border-right: 1px solid #30363d;
+        }
+        
+        .code-editor {
+            width: 100%;
+            min-height: 300px;
+            padding: 16px 16px 16px 70px;
+            background: transparent;
+            color: #c9d1d9;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            resize: vertical;
+            outline: none;
+            tab-size: 4;
+            white-space: pre;
+            overflow-wrap: normal;
+            overflow-x: auto;
+        }
+        
+        .code-editor:focus {
+            border-color: #f97316;
+            box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
+        }
+        
+        .char-counter {
+            transition: all 0.3s ease;
+        }
+        
+        .char-counter.warning {
+            color: #f59e0b;
+        }
+        
+        .char-counter.danger {
+            color: #ef4444;
+            animation: pulse 0.5s ease-in-out;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .language-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(249, 115, 22, 0.1);
+            border: 1px solid rgba(249, 115, 22, 0.2);
+            color: #f97316;
+        }
+        
+        /* Custom scrollbar for code editor */
+        .code-editor::-webkit-scrollbar {
+            height: 8px;
+            width: 8px;
+        }
+        
+        .code-editor::-webkit-scrollbar-track {
+            background: #161b22;
+            border-radius: 4px;
+        }
+        
+        .code-editor::-webkit-scrollbar-thumb {
+            background: #30363d;
+            border-radius: 4px;
+        }
+        
+        .code-editor::-webkit-scrollbar-thumb:hover {
+            background: #8b949e;
+        }
+        
+        /* Custom scrollbar for page */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #f97316, #db2777);
+            border-radius: 10px;
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .highlighted-code {
+            border-left: 4px solid #f97316;
+            background: #0d1117 !important;
+        }
+        
+        .preview-code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            background: #0d1117 !important;
+            padding: 16px;
+            border-radius: 8px;
+            margin: 0;
+            overflow-x: auto;
+        }
+        
+        .preview-code code {
+            background: transparent !important;
+            padding: 0 !important;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 glass-effect border-b border-gray-200">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex items-center justify-between">
+                <a href="{% url 'home' %}" class="flex items-center space-x-2">
+                    <span class="text-2xl">📝</span>
+                    <h1 class="text-xl font-bold gradient-text">skibin.lol</h1>
+                </a>
+                
+                <div class="flex items-center space-x-4">
+                    <a href="{% url 'home' %}" class="text-gray-600 hover:text-pink-600 font-medium text-sm">
+                        ← back to home
+                    </a>
+                    <button type="submit" form="paste-form" class="px-4 py-2 bg-gradient-to-r from-orange-500 to-pink-600 text-white font-semibold rounded-full btn-3d text-sm">
+                        <i class="fas fa-bolt mr-1"></i> create
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <div class="max-w-6xl mx-auto">
+            <!-- Header -->
+            <div class="mb-8 text-center">
+                <h1 class="text-4xl md:text-5xl font-bold mb-3">
+                    <span class="gradient-text">
+                        {% if cloning %}clone paste{% else %}new paste{% endif %}
+                    </span>
+                </h1>
+                <p class="text-gray-600">
+                    drop your code, config, whatever. we'll handle the rest.
+                </p>
+            </div>
+            
+            <!-- Paste Form -->
+            <div class="grid lg:grid-cols-3 gap-8">
+                <!-- Left Column - Form -->
+                <div class="lg:col-span-2">
+                    <div class="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
+                        <!-- Form Header -->
+                        <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                            <div class="flex justify-between items-center">
+                                <div class="flex space-x-2">
+                                    <div class="w-3 h-3 rounded-full bg-red-400"></div>
+                                    <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+                                    <div class="w-3 h-3 rounded-full bg-green-400"></div>
+                                </div>
+                                <div class="text-gray-700 font-medium" id="filename">untitled.txt</div>
+                                <div class="text-gray-500">
+                                    <i class="fas fa-expand-alt"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Form Body -->
+                        <div class="p-6">
+                            <form method="POST" id="paste-form">
+                                {% csrf_token %}
+                                
+                                <!-- Title Input -->
+                                <div class="mb-6">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <label class="text-gray-700 font-medium">paste title (optional)</label>
+                                        <span class="text-xs text-gray-500">keep it simple</span>
+                                    </div>
+                                    {{ form.title }}
+                                </div>
+                                
+                                <!-- Code Editor -->
+                                <div class="mb-6">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <label class="text-gray-700 font-medium">your code/text</label>
+                                        <div class="flex items-center space-x-4">
+                                            <span id="char-count" class="char-counter text-sm text-gray-500">0 / 500,000 chars</span>
+                                            <div class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">
+                                                <i class="fas fa-expand-alt mr-1"></i>resizable
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="code-container">
+                                        <div class="line-numbers" id="line-numbers">1</div>
+                                        {{ form.content }}
+                                    </div>
+                                    
+                                    <div class="mt-2 text-xs text-gray-500 flex justify-between">
+                                        <span>max 500kb (≈500k chars)</span>
+                                        <span>auto-syntax highlighting</span>
+                                    </div>
+                                </div>
+                                
+                                <!-- Language Selection -->
+                                <div class="mb-8">
+                                    <label class="block text-gray-700 font-medium mb-2">
+                                        <i class="fas fa-code mr-2"></i>language
+                                    </label>
+                                    {{ form.language }}
+                                </div>
+                            </form>
+                            
+                            <!-- Info Box -->
+                            <div class="mb-8 p-4 bg-blue-50 border border-blue-100 rounded-xl">
+                                <div class="flex items-start">
+                                    <div class="text-blue-500 mr-3 mt-1">
+                                        <i class="fas fa-info-circle"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-blue-800">
+                                            <span class="font-medium">note:</span> all pastes auto-delete after 3 months. 
+                                            only people with the link can view them.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Action Buttons -->
+                            <div class="flex flex-wrap gap-4 pt-4 border-t border-gray-200">
+                                <button type="submit" form="paste-form" class="px-8 py-3 bg-gradient-to-r from-orange-500 to-pink-600 text-white font-bold rounded-xl btn-3d">
+                                    <i class="fas fa-paper-plane mr-2"></i> create paste
+                                </button>
+                                <button id="example-btn" type="button" class="px-8 py-3 bg-white border-2 border-gray-300 text-gray-800 font-bold rounded-xl hover:border-pink-400 transition">
+                                    <i class="fas fa-code mr-2"></i> load example
+                                </button>
+                                <button id="clear-btn" type="button" class="px-8 py-3 bg-white border-2 border-gray-300 text-gray-800 font-bold rounded-xl hover:border-pink-400 transition ml-auto">
+                                    <i class="fas fa-trash-alt mr-2"></i> clear
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right Column - Preview & Info -->
+                <div class="space-y-6">
+                    <!-- Preview Card -->
+                    <div class="bg-white rounded-2xl shadow-lg border border-gray-200 p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-bold gradient-text">
+                                <i class="fas fa-eye mr-2"></i>preview
+                            </h3>
+                            <div id="language-badge-preview" class="language-badge">
+                                <i class="fas fa-code"></i>
+                                <span>text</span>
+                            </div>
+                        </div>
+                        <div class="preview-code highlighted-code">
+                            <pre><code id="code-preview" class="language-plaintext hljs">// your code will appear here
+// with syntax highlighting
+// select a language from the dropdown</code></pre>
+                        </div>
+                        <div class="mt-4 text-sm text-gray-500">
+                            <i class="fas fa-info-circle mr-1"></i>
+                            updates live as you type
+                        </div>
+                    </div>
+                    
+                    <!-- Info Card -->
+                    <div class="bg-gradient-to-br from-orange-50 to-pink-50 border border-orange-100 rounded-2xl p-6">
+                        <h3 class="text-lg font-bold mb-3">
+                            <i class="fas fa-lightbulb mr-2"></i>pro tips
+                        </h3>
+                        <ul class="space-y-3 text-sm">
+                            <li class="flex items-start">
+                                <span class="text-orange-500 mr-2">•</span>
+                                <span>select language for auto-syntax highlighting</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-pink-500 mr-2">•</span>
+                                <span>drag bottom corner to resize editor</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-purple-500 mr-2">•</span>
+                                <span>paste auto-deletes after 3 months</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-blue-500 mr-2">•</span>
+                                <span>only people with link can view</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Stats Card -->
+                    <div class="bg-white rounded-2xl shadow-lg border border-gray-200 p-6">
+                        <h3 class="text-lg font-bold mb-4">
+                            <i class="fas fa-chart-bar mr-2"></i>quick stats
+                        </h3>
+                        <div class="space-y-4">
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-sm text-gray-600">auto-delete</span>
+                                    <span class="text-sm font-medium">3 months</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full" style="width: 100%"></div>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="text-center p-3 bg-gray-50 rounded-lg">
+                                    <div class="text-2xl font-bold gradient-text">500kb</div>
+                                    <div class="text-xs text-gray-500">max size</div>
+                                </div>
+                                <div class="text-center p-3 bg-gray-50 rounded-lg">
+                                    <div class="text-2xl font-bold gradient-text">0s</div>
+                                    <div class="text-xs text-gray-500">wait time</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Bottom Note -->
+            <div class="mt-8 text-center text-gray-500 text-sm">
+                <p>
+                    <i class="fas fa-lock mr-1"></i>
+                    private by default • auto-deletes after 3 months • no accounts needed
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-12 border-t border-gray-200">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center space-x-2 mb-4 md:mb-0">
+                    <span class="text-xl">📝</span>
+                    <span class="font-bold gradient-text">skibin.lol</span>
+                </div>
+                
+                <div class="flex space-x-6 text-gray-600 text-sm">
+                    <a href="{% url 'home' %}" class="hover:text-pink-600">home</a>
+                    <a href="#" class="hover:text-pink-600">api</a>
+                    <a href="#" class="hover:text-pink-600">status</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize highlight.js
+        hljs.highlightAll();
+        
+        // Get form elements
+        const titleInput = document.getElementById('paste-title');
+        const contentInput = document.getElementById('code-input');
+        const languageSelect = document.getElementById('language-select');
+        
+        // Update filename based on title input
+        function updateFilename() {
+            const filenameElement = document.getElementById('filename');
+            const language = languageSelect.value;
+            
+            let filename = 'untitled';
+            if (titleInput.value.trim()) {
+                filename = titleInput.value.trim();
+            }
+            
+            // Add appropriate extension based on language
+            const extensions = {
+                'python': 'py',
+                'javascript': 'js',
+                'typescript': 'ts',
+                'java': 'java',
+                'cpp': 'cpp',
+                'c': 'c',
+                'csharp': 'cs',
+                'go': 'go',
+                'rust': 'rs',
+                'php': 'php',
+                'ruby': 'rb',
+                'swift': 'swift',
+                'kotlin': 'kt',
+                'html': 'html',
+                'css': 'css',
+                'sql': 'sql',
+                'bash': 'sh',
+                'json': 'json',
+                'yaml': 'yaml',
+                'markdown': 'md',
+                'dockerfile': 'Dockerfile',
+                'plaintext': 'txt'
+            };
+            
+            const extension = extensions[language] || 'txt';
+            filenameElement.textContent = `${filename}.${extension}`;
+        }
+        
+        // Update character count
+        function updateCharCount() {
+            const charCountElement = document.getElementById('char-count');
+            const charCount = contentInput.value.length;
+            const maxChars = 500000;
+            
+            charCountElement.textContent = `${charCount.toLocaleString()} / ${maxChars.toLocaleString()} chars`;
+            
+            // Update styling based on count
+            charCountElement.classList.remove('warning', 'danger');
+            if (charCount > maxChars * 0.8) {
+                charCountElement.classList.add('warning');
+            }
+            if (charCount > maxChars) {
+                charCountElement.classList.add('danger');
+                // Truncate if over limit
+                contentInput.value = contentInput.value.substring(0, maxChars);
+                updateCharCount();
+            }
+            
+            // Update preview
+            updatePreview();
+        }
+        
+        // Update line numbers
+        function updateLineNumbers() {
+            const lines = contentInput.value.split('\n').length;
+            const lineNumbersElement = document.getElementById('line-numbers');
+            
+            let lineNumbersHTML = '';
+            for (let i = 1; i <= Math.max(lines, 1); i++) {
+                lineNumbersHTML += `<div>${i}</div>`;
+            }
+            lineNumbersElement.innerHTML = lineNumbersHTML;
+        }
+        
+        // Update language badge
+        function updateLanguageBadge() {
+            const badgeElement = document.getElementById('language-badge-preview');
+            const language = languageSelect.value;
+            
+            // Language icons mapping
+            const icons = {
+                'plaintext': 'fa-file-alt',
+                'python': 'fa-python',
+                'javascript': 'fa-js',
+                'typescript': 'fa-js-square',
+                'java': 'fa-java',
+                'cpp': 'fa-cuttlefish',
+                'c': 'fa-cuttlefish',
+                'csharp': 'fa-microsoft',
+                'go': 'fa-google',
+                'rust': 'fa-rust',
+                'php': 'fa-php',
+                'ruby': 'fa-gem',
+                'swift': 'fa-apple',
+                'kotlin': 'fa-android',
+                'html': 'fa-html5',
+                'css': 'fa-css3-alt',
+                'sql': 'fa-database',
+                'bash': 'fa-terminal',
+                'json': 'fa-brackets-curly',
+                'yaml': 'fa-file-code',
+                'markdown': 'fa-markdown',
+                'dockerfile': 'fa-docker'
+            };
+            
+            // Language names for display
+            const names = {
+                'plaintext': 'text',
+                'csharp': 'c#',
+                'dockerfile': 'docker',
+                'cpp': 'c++'
+            };
+            
+            const icon = icons[language] || 'fa-code';
+            const name = names[language] || language;
+            
+            badgeElement.innerHTML = `
+                <i class="fas ${icon}"></i>
+                <span>${name}</span>
+            `;
+            
+            updateFilename();
+            updatePreview();
+        }
+        
+        // Update preview with syntax highlighting
+        function updatePreview() {
+            const codePreview = document.getElementById('code-preview');
+            const language = languageSelect.value;
+            
+            codePreview.textContent = contentInput.value || '// your code will appear here\n// with syntax highlighting\n// select a language from the dropdown';
+            codePreview.className = `language-${language} hljs`;
+            
+            // Re-highlight with highlight.js
+            hljs.highlightElement(codePreview);
+        }
+        
+        // Auto-resize textarea
+        contentInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+        });
+        
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCharCount();
+            updateLineNumbers();
+            updateLanguageBadge();
+            updatePreview();
+            
+            // Set initial height for code editor
+            contentInput.style.height = '300px';
+            
+            // Add event listeners
+            titleInput.addEventListener('input', updateFilename);
+            contentInput.addEventListener('input', updateCharCount);
+            contentInput.addEventListener('input', updateLineNumbers);
+            contentInput.addEventListener('input', updatePreview);
+            languageSelect.addEventListener('change', updateLanguageBadge);
+        });
+        
+        // Example code button
+        document.getElementById('example-btn').addEventListener('click', function(e) {
+            e.preventDefault();
+            const exampleCode = `# example python code
+def fibonacci(n):
+    """Generate fibonacci sequence up to n"""
+    a, b = 0, 1
+    result = []
+    while a < n:
+        result.append(a)
+        a, b = b, a + b
+    return result
+
+# test it
+if __name__ == "__main__":
+    print("fibonacci up to 100:")
+    print(fibonacci(100))`;
+            
+            contentInput.value = exampleCode;
+            languageSelect.value = 'python';
+            updateCharCount();
+            updateLineNumbers();
+            updateLanguageBadge();
+            updatePreview();
+        });
+        
+        // Clear button
+        document.getElementById('clear-btn').addEventListener('click', function(e) {
+            e.preventDefault();
+            if (confirm('clear everything? this can\'t be undone')) {
+                titleInput.value = '';
+                contentInput.value = '';
+                languageSelect.value = 'plaintext';
+                updateCharCount();
+                updateLineNumbers();
+                updateLanguageBadge();
+                updatePreview();
+                updateFilename();
+            }
+        });
+        
+        // Auto-indent for code (basic)
+        contentInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Tab') {
+                e.preventDefault();
+                const start = this.selectionStart;
+                const end = this.selectionEnd;
+                
+                // Insert 4 spaces
+                this.value = this.value.substring(0, start) + '    ' + this.value.substring(end);
+                
+                // Move cursor
+                this.selectionStart = this.selectionEnd = start + 4;
+                
+                updateCharCount();
+                updateLineNumbers();
+                updatePreview();
+            }
+        });
+    </script>
+</body>
+</html>

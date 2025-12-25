@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ paste.title|default:"untitled" }} | skibin.lol</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Highlight.js for syntax highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            min-height: 100vh;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(90deg, #f97316, #db2777, #7c3aed);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+        }
+        
+        .btn-3d {
+            transform: translateY(0);
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-3d:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 rgba(0, 0, 0, 0.1);
+        }
+        
+        .code-container {
+            background: #0d1117;
+            border-radius: 12px;
+            overflow: hidden;
+            font-family: 'JetBrains Mono', monospace;
+            position: relative;
+        }
+        
+        .code-content {
+            padding: 20px;
+            color: #c9d1d9;
+            font-size: 14px;
+            line-height: 1.5;
+            overflow-x: auto;
+        }
+        
+        .line-numbers {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 50px;
+            background: #161b22;
+            color: #8b949e;
+            text-align: right;
+            padding: 20px 8px;
+            font-size: 14px;
+            line-height: 1.5;
+            user-select: none;
+            border-right: 1px solid #30363d;
+        }
+        
+        .language-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(249, 115, 22, 0.1);
+            border: 1px solid rgba(249, 115, 22, 0.2);
+            color: #f97316;
+        }
+        
+        .expiry-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            color: #3b82f6;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 backdrop-blur-md bg-white/70 border-b border-gray-200">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex items-center justify-between">
+                <a href="{% url 'home' %}" class="flex items-center space-x-2">
+                    <span class="text-2xl">📝</span>
+                    <h1 class="text-xl font-bold gradient-text">skibin.lol</h1>
+                </a>
+                
+                <div class="flex items-center space-x-4">
+                    <a href="{% url 'create_paste' %}" class="text-gray-600 hover:text-pink-600 font-medium text-sm">
+                        + new paste
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <div class="max-w-6xl mx-auto">
+            <!-- Paste Header -->
+            <div class="mb-8">
+                <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
+                    <h1 class="text-3xl md:text-4xl font-bold gradient-text">
+                        {{ paste.title|default:"untitled" }}
+                    </h1>
+                    
+                    <div class="flex items-center gap-3">
+                        <div class="language-badge">
+                            <i class="fas fa-code"></i>
+                            <span>{{ paste.get_language_display }}</span>
+                        </div>
+                        <div class="expiry-badge">
+                            <i class="fas fa-clock"></i>
+                            <span>expires {{ paste.expires_at|date:"M d, Y" }}</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex flex-wrap items-center gap-6 text-sm text-gray-600">
+                    <div class="flex items-center">
+                        <i class="fas fa-eye mr-2"></i>
+                        <span>{{ paste.views }} view{{ paste.views|pluralize }}</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-calendar-plus mr-2"></i>
+                        <span>created {{ paste.created_at|date:"M d, Y" }}</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-link mr-2"></i>
+                        <span class="font-mono bg-gray-100 px-2 py-1 rounded">skibin.lol/{{ paste.id }}</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Action Buttons -->
+            <div class="flex flex-wrap gap-3 mb-6">
+                <a href="{% url 'raw_paste' paste.id %}" target="_blank" class="px-4 py-2 bg-white border-2 border-gray-300 text-gray-800 font-medium rounded-xl hover:border-pink-400 transition flex items-center">
+                    <i class="fas fa-file-alt mr-2"></i> raw
+                </a>
+                <a href="{% url 'clone_paste' paste.id %}" class="px-4 py-2 bg-white border-2 border-gray-300 text-gray-800 font-medium rounded-xl hover:border-pink-400 transition flex items-center">
+                    <i class="fas fa-copy mr-2"></i> clone
+                </a>
+                <button onclick="copyToClipboard()" class="px-4 py-2 bg-gradient-to-r from-orange-500 to-pink-600 text-white font-medium rounded-xl btn-3d flex items-center">
+                    <i class="fas fa-copy mr-2"></i> copy link
+                </button>
+                <button onclick="copyContent()" class="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-medium rounded-xl btn-3d flex items-center">
+                    <i class="fas fa-clipboard mr-2"></i> copy content
+                </button>
+            </div>
+            
+            <!-- Code Display -->
+            <div class="code-container mb-8">
+                <div class="line-numbers" id="line-numbers">
+                    {% for line in content_lines %}
+                    <div>{{ forloop.counter }}</div>
+                    {% endfor %}
+                </div>
+                <div class="code-content" style="padding-left: 70px;">
+                    <pre><code id="code-content" class="language-{{ paste.language }} hljs">{{ paste.content }}</code></pre>
+                </div>
+            </div>
+            
+            <!-- Share Section -->
+            <div class="bg-gradient-to-r from-orange-50 to-pink-50 border border-orange-100 rounded-2xl p-6 mb-8">
+                <h3 class="text-lg font-bold mb-3">
+                    <i class="fas fa-share-alt mr-2"></i>share this paste
+                </h3>
+                <div class="flex flex-wrap items-center gap-4">
+                    <div class="flex-1 min-w-[300px]">
+                        <div class="relative">
+                            <input type="text" id="paste-url" value="{{ request.build_absolute_uri }}" readonly class="w-full p-3 pr-10 bg-white border border-gray-300 rounded-xl font-mono text-sm">
+                            <button onclick="copyToClipboard()" class="absolute right-2 top-2 p-2 text-gray-500 hover:text-pink-600">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="text-sm text-gray-600">
+                        <i class="fas fa-info-circle mr-1"></i>
+                        only people with this link can view
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Info -->
+            <div class="text-center text-gray-500 text-sm">
+                <p>
+                    <i class="fas fa-lock mr-1"></i>
+                    private paste • auto-deletes after 3 months • no accounts needed
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-12 border-t border-gray-200">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center space-x-2 mb-4 md:mb-0">
+                    <span class="text-xl">📝</span>
+                    <span class="font-bold gradient-text">skibin.lol</span>
+                </div>
+                
+                <div class="flex space-x-6 text-gray-600 text-sm">
+                    <a href="{% url 'home' %}" class="hover:text-pink-600">home</a>
+                    <a href="{% url 'create_paste' %}" class="hover:text-pink-600">create paste</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize highlight.js
+        hljs.highlightAll();
+        
+        // Copy URL to clipboard
+        function copyToClipboard() {
+            const urlInput = document.getElementById('paste-url');
+            urlInput.select();
+            urlInput.setSelectionRange(0, 99999); // For mobile
+            navigator.clipboard.writeText(urlInput.value).then(() => {
+                alert('Link copied to clipboard!');
+            });
+        }
+        
+        // Copy content to clipboard
+        function copyContent() {
+            const codeElement = document.getElementById('code-content');
+            navigator.clipboard.writeText(codeElement.textContent).then(() => {
+                alert('Content copied to clipboard!');
+            });
+        }
+        
+        // Add line numbers (already done in template, but keep for dynamic updates)
+        document.addEventListener('DOMContentLoaded', function() {
+            const codeContent = document.getElementById('code-content');
+            const lines = codeContent.textContent.split('\n').length;
+            const lineNumbersElement = document.getElementById('line-numbers');
+            
+            // Only update if not already set
+            if (lineNumbersElement.children.length === 0) {
+                let lineNumbersHTML = '';
+                for (let i = 1; i <= lines; i++) {
+                    lineNumbersHTML += `<div>${i}</div>`;
+                }
+                lineNumbersElement.innerHTML = lineNumbersHTML;
+            }
+        });
+    </script>
+</body>
+</html>
