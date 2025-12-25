@@ -224,30 +224,6 @@
                     <h1 class="text-3xl md:text-4xl font-bold gradient-text">
                         {{ paste.title|default:"untitled" }}
                     </h1>
-                    
-                        {% with title=paste.title|default:"" %}
-                            {% if "[Xfz.xsae23;sd]" in title %}
-                                <div class="mt-3 flex items-center" style="display: none;" data-admin-badge="true">
-                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gradient-to-r from-purple-500 to-pink-600 text-white">
-                                        <i class="fas fa-crown mr-2"></i>
-                                        posted by admin
-                                    </span>
-                                </div>
-                            {% endif %}
-                        {% endwith %}
-                    </div>
-                    
-                    <div class="flex items-center gap-3">
-                        <div class="language-badge">
-                            <i class="fas fa-code"></i>
-                            <span>{{ paste.get_language_display }}</span>
-                        </div>
-                        <div class="expiry-badge">
-                            <i class="fas fa-clock"></i>
-                            <span>expires {{ paste.expires_at|date:"M d, Y" }}</span>
-                        </div>
-                    </div>
-                </div>
                 
                 <div class="flex flex-wrap items-center gap-6 text-sm text-gray-600 dark:text-gray-400">
                     <div class="flex items-center">
@@ -451,24 +427,6 @@
                 } else {
                     disableDarkMode();
                 }
-            }
-        });
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const adminBadge = document.querySelector('[data-admin-badge="true"]');
-            
-            if (adminBadge) {
-                // Wait a moment then show the badge
-                setTimeout(() => {
-                    adminBadge.style.display = 'flex';
-                    adminBadge.style.animation = 'fadeIn 0.5s ease-in-out';
-                    
-                    // Add some fancy animation
-                    adminBadge.classList.add('animate-pulse');
-                    setTimeout(() => {
-                        adminBadge.classList.remove('animate-pulse');
-                    }, 2000);
-                }, 300);
             }
         });
         
