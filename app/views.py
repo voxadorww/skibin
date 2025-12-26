@@ -27,6 +27,9 @@ def ads_txt(request):
     content = "google.com, pub-5653411333184686, DIRECT, f08c47fec0942fa0"
     return HttpResponse(content, content_type='text/plain')
 
+def pricing(request):
+    return render(request, "pricing.html")
+
 def home(request):
     """Landing page with stats"""
     total_pastes = Paste.get_total_pastes()
