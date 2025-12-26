@@ -289,7 +289,7 @@
                             </li>
                         </ul>
                         
-                        <button onclick="showPaymentModal()"
+                        <button
                                 class="inline-block w-full py-3 px-6 bg-gradient-to-r from-orange-500 to-pink-600 
                                        text-white font-bold rounded-xl btn-3d hover:from-orange-600 hover:to-pink-700 
                                        transition-all duration-300">
@@ -360,74 +360,6 @@
             </div>
         </div>
     </main>
-
-    <!-- Payment Modal -->
-    <div id="paymentModal" class="fixed inset-0 bg-black/50 z-50 hidden items-center justify-center p-4">
-        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-md w-full">
-            <div class="p-6">
-                <div class="flex justify-between items-center mb-6">
-                    <h3 class="text-xl font-bold gradient-text">upgrade to sigma pro</h3>
-                    <button onclick="hidePaymentModal()" class="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300">
-                        <i class="fas fa-times text-lg"></i>
-                    </button>
-                </div>
-                
-                <div class="mb-6 p-4 bg-gradient-to-r from-orange-50 to-pink-50 dark:from-gray-700 dark:to-gray-800 rounded-xl">
-                    <div class="flex justify-between items-center">
-                        <div>
-                            <h4 class="font-bold">sigma pro plan</h4>
-                            <p class="text-sm text-gray-600 dark:text-gray-400">$3.99/month</p>
-                        </div>
-                        <span class="supporter-tag">
-                            <i class="fas fa-crown mr-1"></i> Supporter
-                        </span>
-                    </div>
-                </div>
-                
-                <!-- Payment Form -->
-                <form id="paymentForm" class="space-y-4">
-                    <div>
-                        <label class="block text-sm font-medium mb-2">email address</label>
-                        <input type="email" 
-                               required 
-                               class="w-full p-3 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg"
-                               placeholder="your@email.com">
-                    </div>
-                    
-                    <div>
-                        <label class="block text-sm font-medium mb-2">card details</label>
-                        <div class="p-3 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg">
-                            <div class="flex items-center">
-                                <i class="fas fa-credit-card text-gray-400 mr-3"></i>
-                                <span class="text-gray-500 dark:text-gray-400">secure payment via 2checkout</span>
-                            </div>
-                        </div>
-                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">
-                            <i class="fas fa-lock mr-1"></i> you'll be redirected to 2checkout's secure payment page
-                        </p>
-                    </div>
-                    
-                    <div class="flex items-start mt-2">
-                        <input type="checkbox" id="terms" required class="mt-1 mr-3">
-                        <label for="terms" class="text-sm">
-                            i agree to the <a href="/terms" class="text-pink-600 dark:text-pink-400 hover:underline">terms of service</a>
-                        </label>
-                    </div>
-                    
-                    <button type="button" onclick="processPayment()"
-                            class="w-full py-3 px-6 bg-gradient-to-r from-orange-500 to-pink-600 
-                                   text-white font-bold rounded-xl btn-3d hover:from-orange-600 hover:to-pink-700 
-                                   transition-all duration-300">
-                        <i class="fas fa-bolt mr-2"></i> pay $3.99/month
-                    </button>
-                    
-                    <p class="text-center text-sm text-gray-500 dark:text-gray-400">
-                        <i class="fas fa-shield-alt mr-1"></i> 14-day money-back guarantee
-                    </p>
-                </form>
-            </div>
-        </div>
-    </div>
 
     <!-- Footer -->
     <footer class="mt-12 border-t border-gray-200 dark:border-gray-800">
@@ -500,45 +432,8 @@
             }
         });
         
-        // === PAYMENT MODAL ===
-        function showPaymentModal() {
-            document.getElementById('paymentModal').classList.remove('hidden');
-            document.getElementById('paymentModal').classList.add('flex');
-            document.body.style.overflow = 'hidden';
-        }
-        
-        function hidePaymentModal() {
-            document.getElementById('paymentModal').classList.add('hidden');
-            document.getElementById('paymentModal').classList.remove('flex');
-            document.body.style.overflow = 'auto';
-        }
-        
         function processPayment() {
-            // In reality, this would redirect to 2checkout
-            const modal = document.getElementById('paymentModal');
-            const form = document.getElementById('paymentForm');
-            
-            if (form.checkValidity()) {
-                // Show loading state
-                const button = form.querySelector('button');
-                const originalText = button.innerHTML;
-                button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Processing...';
-                button.disabled = true;
-                
-                // Simulate payment processing
-                setTimeout(() => {
-                    // Redirect to 2checkout payment page
-                    // window.location.href = 'https://secure.2checkout.com/checkout/buy?merchant=YOUR_MERCHANT_CODE';
-                    
-                    // For demo purposes, just show success
-                    alert('Success! (This is a demo. In production, you would redirect to 2checkout.)');
-                    hidePaymentModal();
-                    button.innerHTML = originalText;
-                    button.disabled = false;
-                }, 1500);
-            } else {
-                form.reportValidity();
-            }
+            console.log("do smth");
         }
         
         // Close modal on outside click
