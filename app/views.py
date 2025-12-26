@@ -20,6 +20,9 @@ def get_client_ip(request):
         ip = request.META.get('REMOTE_ADDR')
     return ip
 
+def advtest(request):
+    return render(request, "advtest.html")
+
 def home(request):
     """Landing page with stats"""
     total_pastes = Paste.get_total_pastes()
