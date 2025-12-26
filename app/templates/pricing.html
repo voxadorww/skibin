@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pricing | skibin.lol</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Configure Tailwind for dark mode -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class'
+        }
+    </script>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(90deg, #f97316, #db2777, #7c3aed);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+        }
+        
+        .btn-3d {
+            transform: translateY(0);
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-3d:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-3d:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        
+        .dark ::-webkit-scrollbar-track {
+            background: #374151;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #f97316, #db2777);
+            border-radius: 10px;
+        }
+        
+        .dark ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #ea580c, #be185d);
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .dark .glass-effect {
+            background: rgba(31, 41, 55, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(75, 85, 99, 0.2);
+        }
+        
+        .pricing-card {
+            transition: all 0.3s ease;
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .popular-badge {
+            position: absolute;
+            top: -12px;
+            right: 20px;
+            background: linear-gradient(135deg, #f97316, #db2777);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+        
+        .supporter-tag {
+            background: linear-gradient(135deg, #f97316, #db2777);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            margin-left: 8px;
+        }
+        
+        .feature-check {
+            color: #10b981;
+        }
+        
+        .feature-missing {
+            color: #9ca3af;
+        }
+        
+        .payment-logos {
+            filter: grayscale(100%);
+            opacity: 0.7;
+            transition: all 0.3s ease;
+        }
+        
+        .payment-logos:hover {
+            filter: grayscale(0%);
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 transition-colors duration-300">
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 glass-effect border-b border-gray-200 dark:border-gray-700">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex items-center justify-between">
+                <a href="/" class="flex items-center space-x-2">
+                    <span class="text-2xl">📝</span>
+                    <h1 class="text-xl font-bold gradient-text">skibin.lol</h1>
+                </a>
+                
+                <div class="flex items-center space-x-4">
+                    <!-- Dark Mode Toggle -->
+                    <button id="darkModeToggle" 
+                            class="p-2 rounded-full bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 
+                                   transition-all duration-300">
+                        <span id="darkIcon" class="hidden text-lg">🌙</span>
+                        <span id="lightIcon" class="text-lg">☀️</span>
+                    </button>
+                    
+                    <a href="/new"
+                        class="px-4 py-2 bg-gradient-to-r from-orange-500 to-pink-600 text-white font-semibold rounded-full btn-3d text-sm">
+                        get started
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-12">
+        <div class="max-w-6xl mx-auto">
+            <!-- Header -->
+            <div class="text-center mb-16">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4 gradient-text">simple, transparent pricing</h1>
+                <p class="text-gray-600 dark:text-gray-300 text-lg max-w-2xl mx-auto">
+                    choose the plan that fits your sigma grindset. no hidden fees, no surprises.
+                </p>
+                <div class="mt-8 inline-flex items-center bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 
+                           px-6 py-3 rounded-full border border-blue-100 dark:border-blue-800">
+                    <i class="fas fa-bolt text-yellow-500 mr-2"></i>
+                    <span class="font-semibold">all plans include unlimited pastes</span>
+                </div>
+            </div>
+            
+            <!-- Pricing Cards -->
+            <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-16">
+                <!-- Free Plan -->
+                <div class="pricing-card relative bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 p-8">
+                    <div class="text-center">
+                        <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-gray-300 to-gray-400 dark:from-gray-600 dark:to-gray-700 mb-6">
+                            <i class="fas fa-user text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2">free</h3>
+                        <div class="mb-6">
+                            <span class="text-4xl font-bold">$0</span>
+                            <span class="text-gray-500 dark:text-gray-400">/forever</span>
+                        </div>
+                        
+                        <ul class="space-y-4 mb-8 text-left">
+                            <li class="flex items-start">
+                                <i class="fas fa-check feature-check mt-1 mr-3"></i>
+                                <span>1MB paste size</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check feature-check mt-1 mr-3"></i>
+                                <span>Unlimited pastes</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check feature-check mt-1 mr-3"></i>
+                                <span>Syntax highlighting</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check feature-check mt-1 mr-3"></i>
+                                <span>Clean URLs (skibin.lol/69)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-times feature-missing mt-1 mr-3"></i>
+                                <span class="text-gray-500">Supporter badge</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-times feature-missing mt-1 mr-3"></i>
+                                <span class="text-gray-500">Name on pastes</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-times feature-missing mt-1 mr-3"></i>
+                                <span class="text-gray-500">Priority support</span>
+                            </li>
+                        </ul>
+                        
+                        <a href="/new" 
+                           class="inline-block w-full py-3 px-6 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 
+                                  text-gray-800 dark:text-gray-200 font-bold rounded-xl btn-3d transition-all duration-300">
+                            <i class="fas fa-rocket mr-2"></i> start free
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Pro Plan -->
+                <div class="pricing-card relative bg-gradient-to-br from-orange-50 to-pink-50 dark:from-gray-800 dark:to-gray-900 
+                           rounded-2xl shadow-2xl border-2 border-orange-300 dark:border-pink-700 p-8">
+                    <div class="popular-badge">
+                        most based
+                    </div>
+                    
+                    <div class="text-center">
+                        <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-orange-500 to-pink-600 mb-6">
+                            <i class="fas fa-crown text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2">sigma pro</h3>
+                        <div class="mb-6">
+                            <span class="text-4xl font-bold">$3.99</span>
+                            <span class="text-gray-600 dark:text-gray-300">/month</span>
+                        </div>
+                        
+                        <!-- Supporter Tag Preview -->
+                        <div class="mb-6 p-4 bg-white/50 dark:bg-gray-800/50 rounded-xl">
+                            <div class="flex items-center justify-center">
+                                <span class="font-semibold">username</span>
+                                <span class="supporter-tag">
+                                    <i class="fas fa-crown mr-1 text-xs"></i> Supporter
+                                </span>
+                            </div>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">
+                                your name + badge on every paste
+                            </p>
+                        </div>
+                        
+                        <ul class="space-y-4 mb-8 text-left">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mt-1 mr-3"></i>
+                                <span><strong>10MB paste size</strong> (10x larger)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mt-1 mr-3"></i>
+                                <span>Unlimited pastes</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mt-1 mr-3"></i>
+                                <span><strong>Supporter badge</strong> on profile</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mt-1 mr-3"></i>
+                                <span><strong>Your name displayed</strong> on pastes</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mt-1 mr-3"></i>
+                                <span>Priority Discord support</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mt-1 mr-3"></i>
+                                <span>Early access to new features</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mt-1 mr-3"></i>
+                                <span>No ads, ever</span>
+                            </li>
+                        </ul>
+                        
+                        <button onclick="showPaymentModal()"
+                                class="inline-block w-full py-3 px-6 bg-gradient-to-r from-orange-500 to-pink-600 
+                                       text-white font-bold rounded-xl btn-3d hover:from-orange-600 hover:to-pink-700 
+                                       transition-all duration-300">
+                            <i class="fas fa-bolt mr-2"></i> upgrade now
+                        </button>
+                        
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mt-4">
+                            <i class="fas fa-sync-alt mr-1"></i> cancel anytime
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Payment Processor Info -->
+            <div class="max-w-2xl mx-auto text-center mb-16">
+                <h3 class="text-xl font-bold mb-6 gradient-text">secure payments via</h3>
+                <div class="flex justify-center items-center space-x-8 mb-6">
+                    <img src="https://www.2checkout.com/upload/images/2co_logo_horizontal_pos_rgb_400px.png" 
+                         alt="2Checkout" 
+                         class="h-10 payment-logos">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Verifone_logo.svg/2560px-Verifone_logo.svg.png" 
+                         alt="Verifone" 
+                         class="h-8 payment-logos">
+                </div>
+                <p class="text-gray-600 dark:text-gray-300 text-sm">
+                    <i class="fas fa-lock mr-1"></i> all payments are encrypted and secure
+                </p>
+            </div>
+            
+            <!-- FAQ -->
+            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 p-8 max-w-4xl mx-auto">
+                <h3 class="text-2xl font-bold mb-6 text-center gradient-text">frequently asked questions</h3>
+                <div class="space-y-6">
+                    <div class="border-b border-gray-200 dark:border-gray-700 pb-6">
+                        <h4 class="font-bold mb-2">❓ what happens to my pastes if i cancel pro?</h4>
+                        <p class="text-gray-600 dark:text-gray-300">
+                            all your pastes stay forever! you just lose the pro features (larger paste size, supporter badge, name display).
+                        </p>
+                    </div>
+                    <div class="border-b border-gray-200 dark:border-gray-700 pb-6">
+                        <h4 class="font-bold mb-2">❓ can i switch between plans?</h4>
+                        <p class="text-gray-600 dark:text-gray-300">
+                            absolutely. upgrade or downgrade anytime. downgrading gives you a prorated refund.
+                        </p>
+                    </div>
+                    <div class="border-b border-gray-200 dark:border-gray-700 pb-6">
+                        <h4 class="font-bold mb-2">❓ is there a free trial for pro?</h4>
+                        <p class="text-gray-600 dark:text-gray-300">
+                            no free trial, but we offer a 14-day money-back guarantee. not satisfied? get a full refund.
+                        </p>
+                    </div>
+                    <div class="pb-6">
+                        <h4 class="font-bold mb-2">❓ what payment methods do you accept?</h4>
+                        <p class="text-gray-600 dark:text-gray-300">
+                            all major credit/debit cards via 2checkout. we'll add crypto and more options soon.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- CTA -->
+            <div class="text-center mt-16">
+                <h3 class="text-2xl font-bold mb-4">still have questions?</h3>
+                <p class="text-gray-600 dark:text-gray-300 mb-6 max-w-2xl mx-auto">
+                    hit us up on discord or email. we're here to help you decide what's best for your skibin journey.
+                </p>
+                <a href="/contact" 
+                   class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-bold rounded-full btn-3d">
+                    <i class="fas fa-headset mr-2"></i> contact support
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Payment Modal -->
+    <div id="paymentModal" class="fixed inset-0 bg-black/50 z-50 hidden items-center justify-center p-4">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-md w-full">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-bold gradient-text">upgrade to sigma pro</h3>
+                    <button onclick="hidePaymentModal()" class="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300">
+                        <i class="fas fa-times text-lg"></i>
+                    </button>
+                </div>
+                
+                <div class="mb-6 p-4 bg-gradient-to-r from-orange-50 to-pink-50 dark:from-gray-700 dark:to-gray-800 rounded-xl">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h4 class="font-bold">sigma pro plan</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">$3.99/month</p>
+                        </div>
+                        <span class="supporter-tag">
+                            <i class="fas fa-crown mr-1"></i> Supporter
+                        </span>
+                    </div>
+                </div>
+                
+                <!-- Payment Form -->
+                <form id="paymentForm" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium mb-2">email address</label>
+                        <input type="email" 
+                               required 
+                               class="w-full p-3 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg"
+                               placeholder="your@email.com">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium mb-2">card details</label>
+                        <div class="p-3 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg">
+                            <div class="flex items-center">
+                                <i class="fas fa-credit-card text-gray-400 mr-3"></i>
+                                <span class="text-gray-500 dark:text-gray-400">secure payment via 2checkout</span>
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">
+                            <i class="fas fa-lock mr-1"></i> you'll be redirected to 2checkout's secure payment page
+                        </p>
+                    </div>
+                    
+                    <div class="flex items-start mt-2">
+                        <input type="checkbox" id="terms" required class="mt-1 mr-3">
+                        <label for="terms" class="text-sm">
+                            i agree to the <a href="/terms" class="text-pink-600 dark:text-pink-400 hover:underline">terms of service</a>
+                        </label>
+                    </div>
+                    
+                    <button type="button" onclick="processPayment()"
+                            class="w-full py-3 px-6 bg-gradient-to-r from-orange-500 to-pink-600 
+                                   text-white font-bold rounded-xl btn-3d hover:from-orange-600 hover:to-pink-700 
+                                   transition-all duration-300">
+                        <i class="fas fa-bolt mr-2"></i> pay $3.99/month
+                    </button>
+                    
+                    <p class="text-center text-sm text-gray-500 dark:text-gray-400">
+                        <i class="fas fa-shield-alt mr-1"></i> 14-day money-back guarantee
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="mt-12 border-t border-gray-200 dark:border-gray-800">
+        <div class="container mx-auto px-4 py-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center space-x-2 mb-4 md:mb-0">
+                    <span class="text-xl">📝</span>
+                    <span class="font-bold gradient-text">skibin.lol</span>
+                </div>
+
+                <div class="flex space-x-6 text-gray-600 dark:text-gray-400">
+                    <a href="/" class="hover:text-pink-600 dark:hover:text-pink-400">home</a>
+                    <a href="/new" class="hover:text-pink-600 dark:hover:text-pink-400">create</a>
+                    <a href="/pricing" class="hover:text-pink-600 dark:hover:text-pink-400">pricing</a>
+                    <a href="/contact" class="hover:text-pink-600 dark:hover:text-pink-400">contact</a>
+                    <a href="/terms" class="hover:text-pink-600 dark:hover:text-pink-400">terms</a>
+                </div>
+            </div>
+
+            <div class="text-center text-gray-500 dark:text-gray-500 text-sm mt-8">
+                made with <span class="text-red-500">❤</span> by nomad • © 2024
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // === DARK MODE TOGGLE ===
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const darkIcon = document.getElementById('darkIcon');
+        const lightIcon = document.getElementById('lightIcon');
+        
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const savedTheme = localStorage.getItem('skibin-theme');
+        
+        if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+            enableDarkMode();
+        } else {
+            disableDarkMode();
+        }
+        
+        darkModeToggle.addEventListener('click', () => {
+            if (document.documentElement.classList.contains('dark')) {
+                disableDarkMode();
+            } else {
+                enableDarkMode();
+            }
+        });
+        
+        function enableDarkMode() {
+            document.documentElement.classList.add('dark');
+            darkIcon.classList.remove('hidden');
+            lightIcon.classList.add('hidden');
+            localStorage.setItem('skibin-theme', 'dark');
+        }
+        
+        function disableDarkMode() {
+            document.documentElement.classList.remove('dark');
+            darkIcon.classList.add('hidden');
+            lightIcon.classList.remove('hidden');
+            localStorage.setItem('skibin-theme', 'light');
+        }
+        
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+            if (!localStorage.getItem('skibin-theme')) {
+                if (e.matches) {
+                    enableDarkMode();
+                } else {
+                    disableDarkMode();
+                }
+            }
+        });
+        
+        // === PAYMENT MODAL ===
+        function showPaymentModal() {
+            document.getElementById('paymentModal').classList.remove('hidden');
+            document.getElementById('paymentModal').classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function hidePaymentModal() {
+            document.getElementById('paymentModal').classList.add('hidden');
+            document.getElementById('paymentModal').classList.remove('flex');
+            document.body.style.overflow = 'auto';
+        }
+        
+        function processPayment() {
+            // In reality, this would redirect to 2checkout
+            const modal = document.getElementById('paymentModal');
+            const form = document.getElementById('paymentForm');
+            
+            if (form.checkValidity()) {
+                // Show loading state
+                const button = form.querySelector('button');
+                const originalText = button.innerHTML;
+                button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Processing...';
+                button.disabled = true;
+                
+                // Simulate payment processing
+                setTimeout(() => {
+                    // Redirect to 2checkout payment page
+                    // window.location.href = 'https://secure.2checkout.com/checkout/buy?merchant=YOUR_MERCHANT_CODE';
+                    
+                    // For demo purposes, just show success
+                    alert('Success! (This is a demo. In production, you would redirect to 2checkout.)');
+                    hidePaymentModal();
+                    button.innerHTML = originalText;
+                    button.disabled = false;
+                }, 1500);
+            } else {
+                form.reportValidity();
+            }
+        }
+        
+        // Close modal on outside click
+        document.getElementById('paymentModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                hidePaymentModal();
+            }
+        });
+        
+        // Close modal on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && !document.getElementById('paymentModal').classList.contains('hidden')) {
+                hidePaymentModal();
+            }
+        });
+    </script>
+</body>
+</html>
