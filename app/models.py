@@ -15,6 +15,7 @@ class Paste(models.Model):
         ('python', 'Python'),
         ('javascript', 'JavaScript'),
         ('typescript', 'TypeScript'),
+        ('lua', 'Lua'),
         ('java', 'Java'),
         ('cpp', 'C++'),
         ('c', 'C'),
