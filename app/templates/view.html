@@ -9,14 +9,14 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ request.build_absolute_uri }}">
     <meta property="og:title" content="{{ paste.title|default:'untitled paste' }} | skibin.lol">
-    <meta property="og:description" content="Code snippet shared on skibin.lol">
+    <meta property="og:description" content="{{ paste.content|truncatechars:150|default:'Code snippet shared on skibin.lol' }}">
     <meta property="og:site_name" content="skibin.lol">
     
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary">
     <meta name="twitter:url" content="{{ request.build_absolute_uri }}">
     <meta name="twitter:title" content="{{ paste.title|default:'untitled paste' }} | skibin.lol">
-    <meta name="twitter:description" content="Code snippet shared on skibin.lol">
+    <meta name="twitter:description" content="{{ paste.content|truncatechars:150|default:'Code snippet shared on skibin.lol' }}">
     
     <!-- Discord-specific Meta Tags -->
     <meta property="og:site_name" content="skibin.lol">
@@ -44,6 +44,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
 
+    <!-- Google Ads -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5653411333184686"
      crossorigin="anonymous"></script>
     
@@ -204,6 +205,44 @@
             border-color: #f97316;
             box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.2);
         }
+        
+        /* Ad container styling */
+        .ad-container {
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .ad-label {
+            font-size: 11px;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .dark .ad-label {
+            color: #9ca3af;
+        }
+        
+        /* Admin badge styles */
+        .admin-badge {
+            background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+            color: white;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glow {
+            from { box-shadow: 0 0 10px rgba(139, 92, 246, 0.5); }
+            to { box-shadow: 0 0 20px rgba(139, 92, 246, 0.8); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body class="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 transition-colors duration-300">
@@ -238,9 +277,36 @@
             <!-- Paste Header -->
             <div class="mb-8">
                 <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
-                    <h1 class="text-3xl md:text-4xl font-bold gradient-text">
-                        {{ paste.title|default:"untitled" }}
-                    </h1>
+                    <div>
+                        <h1 class="text-3xl md:text-4xl font-bold gradient-text">
+                            {{ paste.title|default:"untitled" }}
+                        </h1>
+                        
+                        <!-- ADMIN BADGE (Hidden in HTML, shown via JS) -->
+                        {% with title=paste.title|default:"" %}
+                            {% if "[Xfz.xsae23;sd]" in title %}
+                                <div class="mt-3 opacity-0 transition-opacity duration-500" id="admin-badge">
+                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-bold admin-badge">
+                                        <i class="fas fa-crown mr-2"></i>
+                                        posted by admin
+                                        <span class="ml-2 text-xs opacity-75">✓ verified</span>
+                                    </span>
+                                </div>
+                            {% endif %}
+                        {% endwith %}
+                    </div>
+                    
+                    <div class="flex items-center gap-3">
+                        <div class="language-badge">
+                            <i class="fas fa-code"></i>
+                            <span>{{ paste.get_language_display }}</span>
+                        </div>
+                        <div class="expiry-badge">
+                            <i class="fas fa-clock"></i>
+                            <span>expires {{ paste.expires_at|date:"M d, Y" }}</span>
+                        </div>
+                    </div>
+                </div>
                 
                 <div class="flex flex-wrap items-center gap-6 text-sm text-gray-600 dark:text-gray-400">
                     <div class="flex items-center">
@@ -274,6 +340,26 @@
                 </button>
             </div>
             
+            <!-- AD 1: Vertical ad before code (for mobile) -->
+            <div class="mb-6 md:hidden">
+                <div class="text-center ad-label mb-2">
+                    <i class="fas fa-ad mr-1"></i> advertisement
+                </div>
+                <div class="ad-container bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 
+                            border border-blue-100 dark:border-blue-800">
+                    <!-- vertical -->
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-5653411333184686"
+                         data-ad-slot="9694246869"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                </div>
+                <div class="text-center text-xs text-gray-500 dark:text-gray-400 mt-2">
+                    ads help keep skibin.lol free
+                </div>
+            </div>
+            
             <!-- Code Display -->
             <div class="code-container mb-8">
                 <div class="line-numbers" id="line-numbers">
@@ -283,6 +369,26 @@
                 </div>
                 <div class="code-content" style="padding-left: 70px;">
                     <pre><code id="code-content" class="language-{{ paste.language }} hljs">{{ paste.content }}</code></pre>
+                </div>
+            </div>
+            
+            <!-- AD 2: Horizontal ad after code (for desktop) -->
+            <div class="mb-8">
+                <div class="text-center ad-label mb-2">
+                    <i class="fas fa-ad mr-1"></i> advertisement
+                </div>
+                <div class="ad-container bg-gradient-to-br from-orange-50 to-pink-50 dark:from-orange-900/20 dark:to-pink-900/20 
+                            border border-orange-100 dark:border-orange-800">
+                    <!-- horizontal -->
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-5653411333184686"
+                         data-ad-slot="4014367161"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                </div>
+                <div class="text-center text-xs text-gray-500 dark:text-gray-400 mt-2">
+                    consider disabling ad blockers to support skibin.lol
                 </div>
             </div>
             
@@ -343,21 +449,23 @@
         // Initialize highlight.js
         hljs.highlightAll();
         
+        // Initialize Google Ads
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        
         // Copy URL to clipboard
         function copyToClipboard() {
             const urlInput = document.getElementById('paste-url');
             urlInput.select();
-            urlInput.setSelectionRange(0, 99999); // For mobile
+            urlInput.setSelectionRange(0, 99999);
             navigator.clipboard.writeText(urlInput.value).then(() => {
-                // Show a better notification
-                const originalText = urlInput.nextElementSibling.innerHTML;
-                urlInput.nextElementSibling.innerHTML = '<i class="fas fa-check"></i> copied!';
-                urlInput.nextElementSibling.classList.add('text-green-500');
+                const copyBtn = urlInput.nextElementSibling;
+                const originalHTML = copyBtn.innerHTML;
+                copyBtn.innerHTML = '<i class="fas fa-check"></i>';
+                copyBtn.classList.add('text-green-500');
                 
                 setTimeout(() => {
-                    urlInput.nextElementSibling.innerHTML = '<i class="fas fa-copy"></i>';
-                    urlInput.nextElementSibling.classList.remove('text-green-500');
-                    urlInput.nextElementSibling.classList.add('text-gray-500', 'dark:text-gray-400');
+                    copyBtn.innerHTML = originalHTML;
+                    copyBtn.classList.remove('text-green-500');
                 }, 2000);
             });
         }
@@ -366,7 +474,6 @@
         function copyContent() {
             const codeElement = document.getElementById('code-content');
             navigator.clipboard.writeText(codeElement.textContent).then(() => {
-                // Find the copy content button
                 const copyBtn = document.querySelector('button[onclick="copyContent()"]');
                 const originalHTML = copyBtn.innerHTML;
                 copyBtn.innerHTML = '<i class="fas fa-check mr-2"></i> copied!';
@@ -381,13 +488,22 @@
             });
         }
         
-        // Add line numbers (already done in template, but keep for dynamic updates)
+        // Show admin badge with delay (security)
         document.addEventListener('DOMContentLoaded', function() {
+            const adminBadge = document.getElementById('admin-badge');
+            if (adminBadge) {
+                setTimeout(() => {
+                    adminBadge.classList.remove('opacity-0');
+                    adminBadge.classList.add('opacity-100');
+                    adminBadge.style.animation = 'fadeIn 0.5s ease-out';
+                }, 500);
+            }
+            
+            // Update line numbers if needed
             const codeContent = document.getElementById('code-content');
             const lines = codeContent.textContent.split('\n').length;
             const lineNumbersElement = document.getElementById('line-numbers');
             
-            // Only update if not already set
             if (lineNumbersElement.children.length === 0) {
                 let lineNumbersHTML = '';
                 for (let i = 1; i <= lines; i++) {
@@ -402,18 +518,15 @@
         const darkIcon = document.getElementById('darkIcon');
         const lightIcon = document.getElementById('lightIcon');
         
-        // Check saved theme or system preference
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
         const savedTheme = localStorage.getItem('skibin-theme');
         
-        // Set initial theme
         if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
             enableDarkMode();
         } else {
             disableDarkMode();
         }
         
-        // Toggle dark mode
         darkModeToggle.addEventListener('click', () => {
             if (document.documentElement.classList.contains('dark')) {
                 disableDarkMode();
@@ -436,7 +549,6 @@
             localStorage.setItem('skibin-theme', 'light');
         }
         
-        // Listen for system theme changes
         window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
             if (!localStorage.getItem('skibin-theme')) {
                 if (e.matches) {
@@ -447,29 +559,30 @@
             }
         });
         
-        // Add CSS animation
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes fadeIn {
-                from { opacity: 0; transform: translateY(-5px); }
-                to { opacity: 1; transform: translateY(0); }
-            }
-            
-            .admin-badge-glow {
-                animation: glow 2s ease-in-out infinite alternate;
-            }
-            
-            @keyframes glow {
-                from { box-shadow: 0 0 5px rgba(168, 85, 247, 0.5); }
-                to { box-shadow: 0 0 20px rgba(168, 85, 247, 0.8); }
-            }
-        `;
-        document.head.appendChild(style);
-        
-        // Select URL text on click for easier copying
+        // Select URL text on click
         document.getElementById('paste-url').addEventListener('click', function() {
             this.select();
         });
+        
+        // Check for ad blockers
+        setTimeout(function() {
+            const adElements = document.querySelectorAll('.adsbygoogle');
+            adElements.forEach(ad => {
+                if (ad.offsetHeight < 50) {
+                    // Ad might be blocked
+                    const adContainer = ad.closest('.ad-container');
+                    if (adContainer && Math.random() < 0.2) { // 20% chance
+                        const message = document.createElement('div');
+                        message.className = 'text-center text-sm text-gray-500 dark:text-gray-400 p-3';
+                        message.innerHTML = `
+                            <i class="fas fa-heart text-red-500 mr-1"></i>
+                            ads help keep skibin.lol free. consider disabling ad blockers.
+                        `;
+                        adContainer.appendChild(message);
+                    }
+                }
+            });
+        }, 3000);
     </script>
 </body>
 </html>
