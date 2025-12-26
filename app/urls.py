@@ -4,6 +4,7 @@ from . import views
 urlpatterns = [
     path("", views.home, name="home"),
     path("new", views.create_paste, name="create_paste"),
+    path("advtest", views.advtest, name="advtest"),
     path("contact", views.contact, name="contact"),
     path("terms", views.terms, name="terms"),
     path('p/<str:paste_id>/', views.view_paste, name='view_paste'),
